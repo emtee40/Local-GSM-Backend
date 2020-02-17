@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ui.settings.mcc.AreaListActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -25,7 +25,7 @@
         android:layout_margin="@dimen/view_margin"
         android:hint="@string/activity_area_list_search_hint"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

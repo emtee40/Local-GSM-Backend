@@ -5,6 +5,8 @@ buildscript {
         google()
     }
     dependencies {
+        // Stick to Android Gradle Plugin 3.4.2 until Androidannotations 4.7.0 is available because:
+        // https://github.com/androidannotations/androidannotations/issues/2229#issuecomment-526894740
         classpath 'com.android.tools.build:gradle:3.4.2'
     }
 }
@@ -14,5 +16,6 @@ allprojects {
         jcenter()
         maven { url 'https://maven.google.com' }
         maven { url 'https://jitpack.io' }
+        google()
     }
 }

@@ -10,20 +10,18 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.telephony.CellLocation;
 import android.telephony.PhoneStateListener;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EService;
 import org.androidannotations.annotations.SystemService;
 import org.fitchfamily.android.gsmlocation.ui.MainActivity;
 import org.fitchfamily.android.gsmlocation.ui.MainActivity_;
-import org.fitchfamily.android.gsmlocation.util.LocationUtil;
 import org.microg.nlp.api.LocationBackendService;
 
 import java.util.List;

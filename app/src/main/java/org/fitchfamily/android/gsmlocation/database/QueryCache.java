@@ -1,7 +1,7 @@
 package org.fitchfamily.android.gsmlocation.database;
 
 import android.location.Location;
-import android.support.v4.util.LruCache;
+import androidx.collection.LruCache;
 
 public class QueryCache {
     private static final int SIZE = 10000;

@@ -1,6 +1,6 @@
 package org.fitchfamily.android.gsmlocation.ui.settings.mcc;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Collections;
 import java.util.Set;
