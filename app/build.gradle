@@ -1,28 +1,25 @@
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
+        google()
     }
     dependencies {
         // replace with the current version of the Android plugin
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        // replace with the current version of the android-apt plugin
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'com.android.tools.build:gradle:3.4.2'
     }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
-def AAVersion = '3.3.2'
+def AAVersion = '4.6.0'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.2'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "org.fitchfamily.android.gsmlocation"
-        minSdkVersion 10
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 28
         versionCode 69
         versionName "1.4.23"
     }
@@ -48,27 +45,22 @@ android {
 }
 
 dependencies {
-    apt "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
-    compile('com.mikepenz:materialdrawer:4.5.6@aar') {
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$AAVersion"
+    implementation('com.mikepenz:materialdrawer:4.5.6@aar') {
         transitive = true
     }
-    compile "com.android.support:appcompat-v7:23.4.0"
-    compile "com.android.support:support-v4:23.4.0"
-    compile('com.mikepenz:aboutlibraries:5.3.3@aar') {
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation('com.mikepenz:aboutlibraries:5.3.3@aar') {
         transitive = true
     }
-    compile "com.android.support:cardview-v7:23.4.0"
-    compile 'org.microg:unifiednlp-api:1.5.3'
-    compile 'com.octo.android.robospice:robospice:1.4.14'
-    compile 'com.mikepenz:google-material-typeface:2.1.0.1.original@aar'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile "com.android.support:recyclerview-v7:23.4.0"
-    compile 'com.github.machinarius:preferencefragment:0.1.1'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.github.microg:android_external_UnifiedNlpApi:1.5.7'
+    implementation 'com.octo.android.robospice:robospice:1.4.14'
+    implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.github.machinarius:preferencefragment:0.1.2'
 }
 
-apt {
-    arguments {
-        androidManifestFile variant.outputs[0]?.processResources?.manifestFile
-    }
-}
+
