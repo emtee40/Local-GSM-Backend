@@ -29,7 +29,7 @@ import java.util.List;
 import static org.fitchfamily.android.gsmlocation.LogUtils.makeLogTag;
 
 @EService
-public class GsmService extends LocationBackendService {
+public abstract class GsmService extends LocationBackendService {
     private static final String TAG = makeLogTag("service");
     private static final boolean DEBUG = Config.DEBUG;
 

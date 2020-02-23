@@ -2,20 +2,30 @@ package org.fitchfamily.android.gsmlocation;
 
 import android.content.Context;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.telephony.CellIdentityCdma;
 import android.telephony.CellIdentityGsm;
+import android.telephony.CellIdentityLte;
+import android.telephony.CellIdentityNr;
+import android.telephony.CellIdentityTdscdma;
+import android.telephony.CellIdentityWcdma;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
 import android.telephony.CellInfoGsm;
-import android.telephony.CellLocation;
-import android.telephony.NeighboringCellInfo;
+import android.telephony.CellInfoLte;
+import android.telephony.CellInfoNr;
+import android.telephony.CellInfoTdscdma;
+import android.telephony.CellInfoWcdma;
+import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
-import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import org.fitchfamily.android.gsmlocation.database.CellLocationDatabase;
 import org.microg.nlp.api.LocationHelper;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,98 +35,6 @@ import static org.fitchfamily.android.gsmlocation.LogUtils.makeLogTag;
 public class TelephonyHelper {
     private static final String TAG = makeLogTag(TelephonyHelper.class);
     private static final boolean DEBUG = Config.DEBUG;
-
-    /* Reflection-based shims to use CellInfoWcdma and stay compatible with API level 17 */
-    private static class CellIdentityWcdma {
-        private static Class<?> mCls;
-        private static Method mGetCid;
-        private static Method mGetLac;
-        private static Method mGetMcc;
-        private static Method mGetMnc;
-        private static Method mGetPsc;
-        static {
-            try {
-                mCls = Class.forName("android.telephony.CellIdentityWcdma");
-                mGetCid = mCls.getMethod("getCid");
-                mGetLac = mCls.getMethod("getLac");
-                mGetMcc = mCls.getMethod("getMcc");
-                mGetMnc = mCls.getMethod("getMnc");
-                mGetPsc = mCls.getMethod("getPsc");
-            } catch (final ClassNotFoundException e) {
-            } catch (final NoSuchMethodException e) {
-            }
-        }
-        private final Object mObj;
-        public CellIdentityWcdma(final Object obj) {
-            mObj = obj;
-        }
-        public int getCid() throws IllegalAccessException, InvocationTargetException {
-            return ((Integer)mGetCid.invoke(mObj)).intValue();
-        }
-        public int getLac() throws IllegalAccessException, InvocationTargetException {
-            return ((Integer)mGetLac.invoke(mObj)).intValue();
-        }
-        public int getMcc() throws IllegalAccessException, InvocationTargetException {
-            return ((Integer)mGetMcc.invoke(mObj)).intValue();
-        }
-        public int getMnc() throws IllegalAccessException, InvocationTargetException {
-            return ((Integer)mGetMnc.invoke(mObj)).intValue();
-        }
-        public int getPsc() throws IllegalAccessException, InvocationTargetException {
-            return ((Integer)mGetPsc.invoke(mObj)).intValue();
-        }
-    }
-
-    private static class CellSignalStrengthWcdma {
-        private static Class<?> mCls;
-        private static Method mGetAsuLevel;
-        static {
-            try {
-                mCls = Class.forName("android.telephony.CellSignalStrengthWcdma");
-                mGetAsuLevel = mCls.getMethod("getAsuLevel");
-            } catch (final ClassNotFoundException e) {
-            } catch (final NoSuchMethodException e) {
-            }
-        }
-        private final Object mObj;
-        public CellSignalStrengthWcdma(final Object obj) {
-            mObj = obj;
-        }
-        public int getAsuLevel() throws IllegalAccessException, InvocationTargetException {
-            return ((Integer)mGetAsuLevel.invoke(mObj)).intValue();
-        }
-    }
-
-    private static class CellInfoWcdma {
-        private static Class<?> mCls;
-        private static Method mGetCellIdentity;
-        private static Method mGetCellSignalStrength;
-        static {
-            try {
-                mCls = Class.forName("android.telephony.CellInfoWcdma");
-                mGetCellIdentity = mCls.getMethod("getCellIdentity");
-                mGetCellSignalStrength = mCls.getMethod("getCellSignalStrength");
-            } catch (final ClassNotFoundException e) {
-            } catch (final NoSuchMethodException e) {
-            }
-        }
-        private final Object mObj;
-        public CellInfoWcdma(final Object obj) {
-            mObj = obj;
-        }
-        public static boolean isInstance(final Object obj) {
-            return null != mCls && mCls.isInstance(obj);
-        }
-        public CellIdentityWcdma getCellIdentity()
-                throws IllegalAccessException, InvocationTargetException {
-            return new CellIdentityWcdma(mGetCellIdentity.invoke(mObj));
-        }
-        public CellSignalStrengthWcdma getCellSignalStrength()
-                throws IllegalAccessException, InvocationTargetException {
-            return new CellSignalStrengthWcdma(mGetCellSignalStrength.invoke(mObj));
-        }
-    }
-
     private TelephonyManager tm;
     private CellLocationDatabase db;
 
@@ -125,114 +43,142 @@ public class TelephonyHelper {
         db = new CellLocationDatabase(context);
     }
 
-    // call getAllCellInfo() in a way that is safe for many
-    // versions of Android. If does not exist, returns null or
-    // returns an empty list then return null otherwise return
-    // list of cells.
-    public synchronized List<Location> getAllCellInfoWrapper() {
-        if (tm == null)
-            return null;
-
-        List<android.telephony.CellInfo> allCells;
-
+    private int toInteger(String s) {
         try {
-            allCells = tm.getAllCellInfo();
-        } catch (NoSuchMethodError e) {
-            allCells = null;
-            if (DEBUG) Log.i(TAG, "no such method: getAllCellInfo().");
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return -1;
         }
-        if ((allCells == null) || allCells.isEmpty()) {
-            if (DEBUG) Log.i(TAG, "getAllCellInfo()  returned null or empty set");
-            return null;
-        }
-
-        List<Location> rslt = new ArrayList<Location>();
-        for (android.telephony.CellInfo inputCellInfo : allCells) {
-            Location cellLocation = null;
-            if (inputCellInfo instanceof CellInfoGsm) {
-                CellInfoGsm gsm = (CellInfoGsm) inputCellInfo;
-                CellIdentityGsm id = gsm.getCellIdentity();
-                cellLocation = db.query(id.getMcc(), id.getMnc(), id.getCid(), id.getLac());
-            } else if (CellInfoWcdma.isInstance(inputCellInfo)) {
-                try {
-                    CellInfoWcdma wcdma = new CellInfoWcdma(inputCellInfo);
-                    CellIdentityWcdma id = wcdma.getCellIdentity();
-                    cellLocation = db.query(id.getMcc(), id.getMnc(), id.getCid(), id.getLac());
-                } catch(IllegalAccessException e) {
-                    if (DEBUG)
-                        Log.i(TAG, "getAllCellInfoWrapper(), Wcdma: " + e.toString());
-                } catch(InvocationTargetException e) {
-                    if (DEBUG)
-                        Log.i(TAG, "getAllCellInfoWrapper(), Wcdma: " + e.toString());
-                }
-            }
-
-            if ((cellLocation != null)) {
-                rslt.add(cellLocation);
-            }
-        }
-        if (rslt.isEmpty())
-            return null;
-        return rslt;
     }
 
-    public synchronized List<Location> legacyGetCellTowers() {
-        if (tm == null)
+    private double calcRange(double dBm) {
+        final double defaultRange = 5000;
+        // https://wiki.teltonika-networks.com/view/Mobile_Signal_Strength_Recommendations
+        if (dBm == 0) return defaultRange;
+        double range = defaultRange * Math.pow(10d, ((double) -100 - dBm) / 20);
+        if (range > 2 * defaultRange) return 2 * defaultRange;
+        if (range < 100) return 100;
+        return range;
+    }
+
+    @Nullable
+    private synchronized List<Location> getAllCellInfoWrapper() {
+
+        if (tm == null) return null;
+        List<android.telephony.CellInfo> allCells;
+        try {
+            allCells = tm.getAllCellInfo();
+        } catch (SecurityException e) {
+            Log.e(TAG, "SecurityException: " + e.getMessage());
             return null;
+        }
+
+        if (DEBUG) Log.d(TAG, "getAllCellInfo(): " + allCells.toString());
+
+        if ((allCells == null) || allCells.isEmpty()) {
+            Log.i(TAG, "getAllCellInfo() returned null or empty set");
+            return null;
+        }
 
         List<Location> rslt = new ArrayList<Location>();
-        String mncString = tm.getNetworkOperator();
 
-        if ((mncString == null) || (mncString.length() < 5) || (mncString.length() > 6)) {
-            if (DEBUG)
-                Log.i(TAG, "legacyGetCellTowers(): mncString is NULL or not recognized.");
-            return null;
-        }
-        int mcc = 0;
-        int mnc = 0;
-        try {
-            mcc = Integer.parseInt(mncString.substring(0, 3));
-            mnc = Integer.parseInt(mncString.substring(3));
-        } catch (NumberFormatException e) {
-            if (DEBUG)
-                Log.i(TAG, "legacyGetCellTowers(), Unable to parse mncString: " + e.toString());
-            return null;
-        }
-        final CellLocation cellLocation = tm.getCellLocation();
+        for (android.telephony.CellInfo inputCellInfo : allCells) {
+            Location cellLocation = null;
+            int mcc = -1;
+            int mnc = -1;
+            int cid = -1;
+            int lac = -1;
+            double range = 0;
+            double dBm;
+            String tech = "";
 
-        if ((cellLocation != null) && (cellLocation instanceof GsmCellLocation)) {
-            GsmCellLocation cell = (GsmCellLocation) cellLocation;
-            Location cellLocInfo = db.query(mcc, mnc, cell.getCid(), cell.getLac());
-            if (cellLocInfo != null)
-                rslt.add(cellLocInfo);
-            else if (DEBUG)
-                Log.i(TAG, "Unknown cell tower detected: mcc="+mcc+
-                        ", mnc="+mcc+", cid="+cell.getCid()+", lac="+cell.getLac());
-        } else {
-            if (DEBUG)
-                Log.i(TAG, "getCellLocation() returned null or no GsmCellLocation.");
-        }
-
-        try {
-            final List<NeighboringCellInfo> neighbours = tm.getNeighboringCellInfo();
-            if ((neighbours != null) && !neighbours.isEmpty()) {
-                for (NeighboringCellInfo neighbour : neighbours) {
-                    Location cellLocInfo = db.query(mcc, mnc, neighbour.getCid(), neighbour.getLac());
-                    if (cellLocInfo != null) {
-                        rslt.add(cellLocInfo);
-                    }
+            if (inputCellInfo instanceof CellInfoLte) {
+                tech = "LTE";
+                CellInfoLte info = (CellInfoLte) inputCellInfo;
+                dBm = info.getCellSignalStrength().getDbm();
+                range = calcRange(dBm);
+                CellIdentityLte id = info.getCellIdentity();
+                mcc = toInteger(id.getMccString());
+                mnc = toInteger(id.getMncString());
+                cid = id.getCi();
+                lac = id.getTac();
+            } else if (inputCellInfo instanceof CellInfoGsm) {
+                tech = "GSM";
+                CellInfoGsm info = (CellInfoGsm) inputCellInfo;
+                dBm = info.getCellSignalStrength().getDbm();
+                range = calcRange(dBm);
+                CellIdentityGsm id = info.getCellIdentity();
+                mcc = toInteger(id.getMccString());
+                mnc = toInteger(id.getMncString());
+                cid = id.getCid();
+                lac = id.getLac();
+            } else if (Build.VERSION.SDK_INT >= 18 && inputCellInfo instanceof CellInfoWcdma) {
+                tech = "WCDMA";
+                CellInfoWcdma info = (CellInfoWcdma) inputCellInfo;
+                dBm = info.getCellSignalStrength().getDbm();
+                range = calcRange(dBm);
+                CellIdentityWcdma id = info.getCellIdentity();
+                mcc = toInteger(id.getMccString());
+                mnc = toInteger(id.getMncString());
+                cid = id.getCid();
+                lac = id.getLac();
+            } else if (Build.VERSION.SDK_INT >= 29 && inputCellInfo instanceof CellInfoNr) {
+                tech = "5G";
+                CellInfoNr info = (CellInfoNr) inputCellInfo;
+                dBm = info.getCellSignalStrength().getDbm();
+                range = calcRange(dBm);
+                CellIdentityNr id = (CellIdentityNr) ((CellInfoNr) inputCellInfo).getCellIdentity();
+                mcc = toInteger(id.getMccString());
+                mnc = toInteger(id.getMncString());
+                cid = id.getPci();
+                lac = id.getTac();
+            } else if (Build.VERSION.SDK_INT >= 29 && inputCellInfo instanceof CellInfoTdscdma) {
+                tech = "TDSCDMA";
+                CellInfoTdscdma info = (CellInfoTdscdma) inputCellInfo;
+                dBm = info.getCellSignalStrength().getDbm();
+                range = calcRange(dBm);
+                CellIdentityTdscdma id = info.getCellIdentity();
+                mcc = toInteger(id.getMccString());
+                mnc = toInteger(id.getMncString());
+                cid = id.getCid();
+                lac = id.getLac();
+            } else if (inputCellInfo instanceof CellInfoCdma) {
+                tech = "CDMA";
+                CellInfoCdma info = (CellInfoCdma) inputCellInfo;
+                dBm = info.getCellSignalStrength().getDbm();
+                range = calcRange(dBm);
+                CellIdentityCdma id = ((CellInfoCdma) inputCellInfo).getCellIdentity();
+                if (id.getLatitude() != CellInfo.UNAVAILABLE) {
+                    cellLocation = new Location("CDMA");
+                    cellLocation.setLatitude(id.getLatitude() * 0.25 / 3600);
+                    cellLocation.setLongitude(id.getLongitude() * 0.25 / 3600);
+                    cellLocation.setAccuracy((float) range);
+                    rslt.add(cellLocation);
+                    continue;
+                } else {
+                    ServiceState state = new ServiceState();
+                    // https://groups.google.com/forum/#!msg/android-developers/ASVpv7RbLL8/hRYtSerT3RAJ
+                    mcc = toInteger(state.getOperatorNumeric().substring(0, 3));
+                    mnc = id.getSystemId();
+                    cid = id.getBasestationId();
+                    lac = id.getNetworkId();
                 }
-            } else {
-                if (DEBUG) Log.i(TAG, "getNeighboringCellInfo() returned null or empty set.");
+            } else continue;
+
+            if (mcc >= 0) Log.i(TAG,
+                    "CellInfo: " + tech + " MCC=" + mcc + " MNC=" + mnc + " CID="
+                            + cid + " LAC=" + lac + " dBm=" + Math.round(dBm));
+
+            if (mcc >= 200 && mcc != 999 && mnc >= 0 && cid != CellInfo.UNAVAILABLE && lac != CellInfo.UNAVAILABLE) {
+                cellLocation = db.query(mcc, mnc, cid, lac);
+                if ((cellLocation != null)) {
+                    cellLocation.setAccuracy((float) range);
+                    rslt.add(cellLocation);
+                }
             }
-        } catch (NoSuchMethodError e) {
-            if (DEBUG) Log.i(TAG, "no such method: getNeighboringCellInfo().");
         }
-        if (rslt.isEmpty() && DEBUG) {
-            Log.i(TAG, "No known cell towers found.");
-        }
-        if (rslt.isEmpty())
-            return null;
+
+        if (rslt.isEmpty()) return null;
         return rslt;
     }
 
@@ -243,14 +189,11 @@ public class TelephonyHelper {
         db.checkForNewDatabase();
         List<Location> rslt = getAllCellInfoWrapper();
         if (rslt == null) {
-            if (DEBUG)
-                Log.i(TAG, "getAllCellInfoWrapper() returned nothing, trying legacyGetCellTowers().");
-            rslt = legacyGetCellTowers();
-        }
-        if ((rslt == null) || rslt.isEmpty()) {
-            if (DEBUG) Log.i(TAG, "getTowerLocations(): No tower information.");
+            if (DEBUG) Log.i(TAG, "getAllCellInfoWrapper() returned nothing");
             return null;
         }
+
+        if (DEBUG) Log.i(TAG, "getTowerLocations(): " + rslt.toString());
         return rslt;
     }
 

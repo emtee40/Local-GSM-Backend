@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 def AAVersion = '4.6.0'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "org.fitchfamily.android.gsmlocation"
-        minSdkVersion 14
-        targetSdkVersion 28
+        minSdkVersion 17
+        targetSdkVersion 29
         versionCode 69
         versionName "1.4.23"
     }
@@ -16,7 +16,8 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -50,6 +51,7 @@ dependencies {
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.machinarius:preferencefragment:0.1.2'
+    implementation 'org.jetbrains:annotations-java5:15.0'
 }
 
 
