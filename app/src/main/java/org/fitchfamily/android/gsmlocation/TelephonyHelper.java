@@ -98,8 +98,13 @@ public class TelephonyHelper {
                 dBm = info.getCellSignalStrength().getDbm();
                 range = calcRange(dBm);
                 CellIdentityLte id = info.getCellIdentity();
-                mcc = toInteger(id.getMccString());
-                mnc = toInteger(id.getMncString());
+                if (Build.VERSION.SDK_INT >= 28) {
+                    mcc = toInteger(id.getMccString());
+                    mnc = toInteger(id.getMncString());
+                } else {
+                    mcc = id.getMcc();
+                    mnc = id.getMnc();
+                }
                 cid = id.getCi();
                 lac = id.getTac();
             } else if (inputCellInfo instanceof CellInfoGsm) {
@@ -108,8 +113,13 @@ public class TelephonyHelper {
                 dBm = info.getCellSignalStrength().getDbm();
                 range = calcRange(dBm);
                 CellIdentityGsm id = info.getCellIdentity();
-                mcc = toInteger(id.getMccString());
-                mnc = toInteger(id.getMncString());
+                if (Build.VERSION.SDK_INT >= 28) {
+                    mcc = toInteger(id.getMccString());
+                    mnc = toInteger(id.getMncString());
+                } else {
+                    mcc = id.getMcc();
+                    mnc = id.getMnc();
+                }
                 cid = id.getCid();
                 lac = id.getLac();
             } else if (Build.VERSION.SDK_INT >= 18 && inputCellInfo instanceof CellInfoWcdma) {
@@ -118,8 +128,13 @@ public class TelephonyHelper {
                 dBm = info.getCellSignalStrength().getDbm();
                 range = calcRange(dBm);
                 CellIdentityWcdma id = info.getCellIdentity();
-                mcc = toInteger(id.getMccString());
-                mnc = toInteger(id.getMncString());
+                if (Build.VERSION.SDK_INT >= 28) {
+                    mcc = toInteger(id.getMccString());
+                    mnc = toInteger(id.getMncString());
+                } else {
+                    mcc = id.getMcc();
+                    mnc = id.getMnc();
+                }
                 cid = id.getCid();
                 lac = id.getLac();
             } else if (Build.VERSION.SDK_INT >= 29 && inputCellInfo instanceof CellInfoNr) {
