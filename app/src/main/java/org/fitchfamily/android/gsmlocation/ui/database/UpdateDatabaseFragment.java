@@ -78,7 +78,7 @@ public class UpdateDatabaseFragment extends BaseFragment implements
     protected Button settings;
 
     @ViewById
-    protected Button permissionAllow;
+    protected Button permission_allow;
 
     @ViewById
     protected Button update;
@@ -133,7 +133,7 @@ public class UpdateDatabaseFragment extends BaseFragment implements
         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
     }
 
-    private void onDownloadDone() {
+     private void onDownloadDone() {
         switcher.setDisplayedChild(PAGE_INFO);
         setShowLog(false);
     }
@@ -172,7 +172,7 @@ public class UpdateDatabaseFragment extends BaseFragment implements
         settings.setVisibility(hasNoSources ? View.VISIBLE : View.GONE);
 
         errorPermission.setVisibility(hasNoPermission ? View.VISIBLE : View.GONE);
-        permissionAllow.setVisibility(hasNoPermission ? View.VISIBLE : View.GONE);
+        permission_allow.setVisibility(hasNoPermission ? View.VISIBLE : View.GONE);
 
         update.setEnabled(!hasProblem);
     }

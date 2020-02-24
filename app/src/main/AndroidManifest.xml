@@ -2,7 +2,6 @@
 <manifest package="org.fitchfamily.android.gsmlocation"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -29,11 +28,6 @@
                 android:name="org.microg.nlp.BACKEND_SUMMARY"
                 android:value="@string/summary"/>
         </service>
-
-        <activity
-            android:name=".ReqLocationPermActivity"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <service
             android:name=".async.SpiceService"
