@@ -274,7 +274,7 @@ public class TelephonyHelper {
                     accuracy,
                     extras);
         }
-        rslt.setTime(System.currentTimeMillis());
+        //rslt.setTime(System.currentTimeMillis());
         return rslt;
     }
 
