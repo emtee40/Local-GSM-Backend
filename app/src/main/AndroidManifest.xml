@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <!--
+    Temporarily REMOVED from service tag until org.microg.nlp is fixed:
+    android:permission="android.permission.ACCESS_COARSE_LOCATION"
+    -->
 
     <application
         android:allowBackup="false"
@@ -17,7 +21,8 @@
         <service
             android:name=".GsmService"
             android:label="@string/app_name"
-            android:permission="android.permission.ACCESS_COARSE_LOCATION">
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="org.microg.nlp.LOCATION_BACKEND"/>
             </intent-filter>

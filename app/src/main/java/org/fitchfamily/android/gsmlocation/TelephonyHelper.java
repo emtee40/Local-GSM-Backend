@@ -32,13 +32,14 @@ import java.util.List;
 
 import static org.fitchfamily.android.gsmlocation.LogUtils.makeLogTag;
 
-public class TelephonyHelper {
+class TelephonyHelper {
     private static final String TAG = makeLogTag(TelephonyHelper.class);
     private static final boolean DEBUG = Config.DEBUG;
     private TelephonyManager tm;
     private CellLocationDatabase db;
+    private long lastTimeStamp = 0;
 
-    public TelephonyHelper(Context context) {
+    TelephonyHelper(Context context) {
         tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         db = new CellLocationDatabase(context);
     }
@@ -62,23 +63,33 @@ public class TelephonyHelper {
     }
 
     @Nullable
-    private synchronized List<Location> getAllCellInfoWrapper() {
+    private synchronized List<Location> getTowerLocations(List<android.telephony.CellInfo> allCells) {
 
         if (tm == null) return null;
-        List<android.telephony.CellInfo> allCells;
-        try {
+
+        if (allCells == null) try {
             allCells = tm.getAllCellInfo();
         } catch (SecurityException e) {
             Log.e(TAG, "SecurityException: " + e.getMessage());
             return null;
         }
 
-        if (DEBUG) Log.d(TAG, "getAllCellInfo(): " + allCells.toString());
+        //if (DEBUG) Log.d(TAG, "getAllCellInfo(): " + allCells.toString());
 
         if ((allCells == null) || allCells.isEmpty()) {
             Log.i(TAG, "getAllCellInfo() returned null or empty set");
             return null;
         }
+
+        long l = allCells.get(0).getTimeStamp();
+        if (l == lastTimeStamp) {
+            Log.d(TAG, "Same timestamp: " + Long.toString(l));
+            return null;
+        }
+        Log.d(TAG, "New timestamp: " + Long.toString(l));
+        lastTimeStamp = l;
+
+        db.checkForNewDatabase();
 
         List<Location> rslt = new ArrayList<Location>();
 
@@ -168,6 +179,7 @@ public class TelephonyHelper {
                     cellLocation.setLatitude(id.getLatitude() * 0.25 / 3600);
                     cellLocation.setLongitude(id.getLongitude() * 0.25 / 3600);
                     cellLocation.setAccuracy((float) range);
+                    cellLocation.setTime(inputCellInfo.getTimeStamp() / 1000000);
                     rslt.add(cellLocation);
                     continue;
                 } else {
@@ -180,39 +192,23 @@ public class TelephonyHelper {
                 }
             } else continue;
 
-            if (mcc >= 0) Log.i(TAG,
-                    "CellInfo: " + tech + " MCC=" + mcc + " MNC=" + mnc + " CID="
-                            + cid + " LAC=" + lac + " dBm=" + Math.round(dBm));
+            if (mcc >= 0) Log.i(TAG, "CellInfo: " + tech + " MCC=" + mcc + " MNC="
+                    + mnc + " CID=" + cid + " LAC=" + lac + " dBm=" + Math.round(dBm));
 
             if (mcc >= 200 && mcc != 999 && mnc >= 0 && cid != CellInfo.UNAVAILABLE && lac != CellInfo.UNAVAILABLE) {
                 cellLocation = db.query(mcc, mnc, cid, lac);
+
                 if ((cellLocation != null)) {
-                    cellLocation.setAccuracy((float) range);
+                    if (cellLocation.getAccuracy() > range) cellLocation.setAccuracy((float) range);
                     rslt.add(cellLocation);
                 }
             }
         }
-
         if (rslt.isEmpty()) return null;
         return rslt;
     }
 
-    public synchronized List<Location> getTowerLocations() {
-        if (tm == null)
-            return null;
-
-        db.checkForNewDatabase();
-        List<Location> rslt = getAllCellInfoWrapper();
-        if (rslt == null) {
-            if (DEBUG) Log.i(TAG, "getAllCellInfoWrapper() returned nothing");
-            return null;
-        }
-
-        if (DEBUG) Log.i(TAG, "getTowerLocations(): " + rslt.toString());
-        return rslt;
-    }
-
-    public Location weightedAverage(String source, Collection<Location> locations) {
+    private Location weightedAverage(Collection<Location> locations) {
         Location rslt;
 
         if (locations == null || locations.size() == 0) {
@@ -261,27 +257,25 @@ public class TelephonyHelper {
 //        if (DEBUG) Log.i(TAG, "Location est (lat="+ latitude + ", lng=" + longitude + ", acc=" + accuracy);
 
         if (altitudes > 0) {
-            rslt = LocationHelper.create(source,
+            rslt = LocationHelper.create("GSM",
                     latitude,
                     longitude,
                     altitude,
                     accuracy,
                     extras);
         } else {
-            rslt = LocationHelper.create(source,
+            rslt = LocationHelper.create("GSM",
                     latitude,
                     longitude,
                     accuracy,
                     extras);
         }
-        //rslt.setTime(System.currentTimeMillis());
         return rslt;
     }
 
-    public synchronized Location getLocationEstimate() {
-        if (tm == null)
-            return null;
-        return weightedAverage("gsm", getTowerLocations());
+    synchronized Location getLocationEstimate(List<android.telephony.CellInfo> allCells) {
+        if (tm == null) return null;
+        return weightedAverage(getTowerLocations(allCells));
     }
 }
 

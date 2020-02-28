@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 
-import com.mikepenz.aboutlibraries.Libs;
-import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -77,12 +75,6 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
                 )
                 .addStickyDrawerItems(
                         new PrimaryDrawerItem()
-                                .withName(R.string.activity_main_libraries)
-                                .withIcon(GoogleMaterial.Icon.gmd_info_outline)
-                                .withSelectable(false)
-                                .withIdentifier(LIBRARIES),
-
-                        new PrimaryDrawerItem()
                                 .withName(R.string.activity_main_about)
                                 .withIcon(GoogleMaterial.Icon.gmd_info)
                                 .withSelectable(false)
@@ -98,18 +90,12 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
                                 setFragment(new SettingsFragment_());
                             } else if (id == DATABASE) {
                                 setFragment(new UpdateDatabaseFragment_());
-                            } else if (id == LIBRARIES) {
-                                new LibsBuilder()
-                                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                                        .withFields(R.string.class.getFields())
-                                        .start(MainActivity.this);
-                            } else if (id == SETTINGS_ADVANCED) {
+                             } else if (id == SETTINGS_ADVANCED) {
                                 setFragment(new AdvancedSettingsFragment_());
                             } else if (id == ABOUT) {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.ABOUT_URL)));
                             }
                         }
-
                         return false;
                     }
                 })
@@ -139,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
     private void updateTitle() {
         IDrawerItem item = drawer == null ? null : drawer.getDrawerItem(drawer.getCurrentSelection());
 
-        if (item != null && item instanceof PrimaryDrawerItem) {
+        if (item instanceof PrimaryDrawerItem) {
             toolbar.setSubtitle(((PrimaryDrawerItem) item).getName().getText(this));
         } else {
             toolbar.setSubtitle(null);
