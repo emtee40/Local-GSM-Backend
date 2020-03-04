@@ -11,6 +11,7 @@ android {
         targetSdkVersion 29
         versionCode 69
         versionName "1.4.23"
+        setProperty("archivesBaseName", "GsmBackend-$versionName")
     }
 
     buildTypes {
@@ -47,7 +48,6 @@ dependencies {
     implementation 'com.octo.android.robospice:robospice:1.4.14'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.github.machinarius:preferencefragment:0.1.2'
-    implementation 'org.jetbrains:annotations-java5:15.0'
 }
 
 

@@ -36,13 +36,6 @@ public class GsmService extends LocationBackendService {
 
     @Override
     protected synchronized Location update() {
-        // https://developer.android.com/guide/components/services
-        String s = Thread.currentThread().getStackTrace()[3].getClassName();
-        if (!s.equals("org.microg.nlp.api.LocationBackendService$Backend")) {
-            Log.e(TAG, "ACCESS DENIED for " + s);
-            return null;
-        }
-
         if (DEBUG) Log.i(TAG, "update()");
 
         if (Build.VERSION.SDK_INT >= 29 && tm != null) {

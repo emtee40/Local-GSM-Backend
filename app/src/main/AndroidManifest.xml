@@ -11,6 +11,7 @@
     <!--
     Temporarily REMOVED from service tag until org.microg.nlp is fixed:
     android:permission="android.permission.ACCESS_COARSE_LOCATION"
+    https://github.com/microg/android_packages_apps_GmsCore/issues/986
     -->
 
     <application
