@@ -94,7 +94,7 @@
     <string name="fragment_settings_card_sources_title">Quellen</string>
 
     <string name="fragment_settings_card_sources_filter_on_phone">Alle Gebiete herunterladen und nur die ausgewählten speichern</string>
-    <string name="fragment_settings_card_sources_filter_remote">Ausgewählte Gebiete von lacells herunterladen (Daten können veraltet sein)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Ausgewählte Gebiete von lacells herunterladen</string>
 
     <string name="fragment_settings_opencellid_error_title">Konnte OpenCellID nicht aktivieren</string>
     <string name="fragment_settings_opencellid_error_connection">Verbindung fehlgeschlagen</string>

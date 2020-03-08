@@ -90,7 +90,7 @@
     <string name="fragment_settings_card_sources_title">Sources</string>
 
     <string name="fragment_settings_card_sources_filter_on_phone">Télécharger toutes les zones et ne garder que celles choisies</string>
-    <string name="fragment_settings_card_sources_filter_remote">Télécharger les zones choisies depuis lacells (les données peuvent être anciennes)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Télécharger les zones choisies depuis lacells</string>
 
     <string name="fragment_settings_opencellid_error_title">Impossible d\'activer OpenCellId</string>
     <string name="fragment_settings_opencellid_error_connection">Échec de la connexion</string>

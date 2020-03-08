@@ -114,8 +114,8 @@
 
     <string name="fragment_settings_card_sources_title">Sources</string>
 
-    <string name="fragment_settings_card_sources_filter_on_phone">Download all areas and only save chosen</string>
-    <string name="fragment_settings_card_sources_filter_remote">Download chosen areas from lacells (data may be old)</string>
+    <string name="fragment_settings_card_sources_filter_on_phone">Download all areas and only save selected</string>
+    <string name="fragment_settings_card_sources_filter_remote">Download selected areas from lacells</string>
 
     <string name="fragment_settings_opencellid_error_title">Couldn\'t enable OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Connection failed</string>
@@ -125,7 +125,7 @@
 
     <string name="fragment_settings_card_areas_title">Areas</string>
 
-    <string name="fragment_settings_card_areas_nothing_chosen">Nothing chosen (will use all)
+    <string name="fragment_settings_card_areas_nothing_chosen">Nothing selected (will use all)
     </string>
     <string name="fragment_settings_card_areas_other">Others</string>
 
@@ -133,13 +133,13 @@
         the database is being updated.
     </string>
 
-    <string name="activity_area_list_title">Chose areas</string>
+    <string name="activity_area_list_title">Select areas</string>
 
     <string name="fragment_area_list_unknown">Unknown Area (MCC:<xliff:g example="42" id="mcc">
         %1$s</xliff:g>)
     </string>
 
-    <string name="fragment_database_update_error_no_sources">You have to choose sources in the
+    <string name="fragment_database_update_error_no_sources">You have to select sources in the
         settings first
     </string>
     <string name="fragment_database_update_button_settings">Open Settings</string>

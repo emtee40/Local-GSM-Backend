@@ -104,7 +104,7 @@
     <string name="fragment_settings_card_sources_title">Источники</string>
     
     <string name="fragment_settings_card_sources_filter_on_phone">Загрузить все зоны и сохранить только выбранные</string>
-    <string name="fragment_settings_card_sources_filter_remote">Загрузить выбранные зоны из lacells (данные могут быть устаревшими)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Загрузить выбранные зоны из lacells</string>
     
     <string name="fragment_settings_opencellid_error_title">OpenCellID не включается</string>
     <string name="fragment_settings_opencellid_error_connection">Соединение не удалось</string>

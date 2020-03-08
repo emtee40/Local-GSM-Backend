@@ -27,7 +27,7 @@ public class GsmService extends LocationBackendService {
     final PhoneStateListener listener = new PhoneStateListener() {
         @Override
         public void onCellInfoChanged(List<android.telephony.CellInfo> cellInfo) {
-            if (DEBUG) Log.i(TAG, "onCellInfoChanged(): " + cellInfo.toString());
+            if (DEBUG) Log.d(TAG, "onCellInfoChanged(): " + cellInfo.toString());
             Location location = th.getLocationEstimate(cellInfo);
             if (location != null) lastKnownLocation = location;
             seenCellInfoChanged = true;
@@ -36,14 +36,14 @@ public class GsmService extends LocationBackendService {
 
     @Override
     protected synchronized Location update() {
-        if (DEBUG) Log.i(TAG, "update()");
+        if (DEBUG) Log.d(TAG, "update()");
 
         if (Build.VERSION.SDK_INT >= 29 && tm != null) {
             if (cellInfoCallback == null)
                 cellInfoCallback = new TelephonyManager.CellInfoCallback() {
                     @Override
                     public void onCellInfo(@Nullable List<android.telephony.CellInfo> cellInfo) {
-                        if (DEBUG) Log.d(TAG, "onCellInfo() callback!");
+                        if (DEBUG) Log.v(TAG, "onCellInfo() callback!");
                     }
 
                     @Override

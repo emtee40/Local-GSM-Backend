@@ -1,11 +1,15 @@
 package org.fitchfamily.android.gsmlocation.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
                                 setFragment(new SettingsFragment_());
                             } else if (id == DATABASE) {
                                 setFragment(new UpdateDatabaseFragment_());
-                             } else if (id == SETTINGS_ADVANCED) {
+                            } else if (id == SETTINGS_ADVANCED) {
                                 setFragment(new AdvancedSettingsFragment_());
                             } else if (id == ABOUT) {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Config.ABOUT_URL)));
@@ -103,10 +107,13 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
                 .build();
 
         updateTitle();
-        if(action == Action.request_permission) {
+        if (action == Action.request_permission) {
             drawer.setSelection(SETTINGS);
         }
-
+        if (Build.VERSION.SDK_INT >= 29) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 2);
+        } else if (Build.VERSION.SDK_INT >= 23)
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
     }
 
     private void setFragment(Fragment fragment) {
@@ -140,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
 
     @Override
     public void onBackPressed() {
-        if(drawer != null && drawer.isDrawerOpen()) {
+        if (drawer != null && drawer.isDrawerOpen()) {
             drawer.closeDrawer();
         } else {
             super.onBackPressed();
@@ -150,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
     public enum Action {
         request_permission
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

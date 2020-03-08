@@ -26,7 +26,7 @@ public class Settings {
 
     private static final File DATABASE_DIRECTORY_OLD = new File(Environment.getExternalStorageDirectory(), ".nogapps");
 
-    private static final boolean USE_LACELLS_DEFAULT = false;
+    private static final boolean USE_LACELLS_DEFAULT = true;
 
     private static final String USE_LACELLS = "lacells_preference";
 

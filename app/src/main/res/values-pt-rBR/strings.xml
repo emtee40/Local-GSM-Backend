@@ -103,7 +103,7 @@
     <string name="fragment_settings_card_sources_title">Fontes</string>
 
     <string name="fragment_settings_card_sources_filter_on_phone">Baixar todas áreas e só salvar as escolhidas</string>
-    <string name="fragment_settings_card_sources_filter_remote">Baixar áreas escolhidas do lacells (dados podem ser antigos)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Baixar áreas escolhidas do lacells</string>
 
     <string name="fragment_settings_opencellid_error_title">Não consegui habilitar o OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Conexão falhou</string>

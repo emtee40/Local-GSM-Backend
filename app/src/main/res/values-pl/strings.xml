@@ -90,7 +90,7 @@
     <string name="fragment_settings_card_sources_title">Źródła</string>
 
     <string name="fragment_settings_card_sources_filter_on_phone">Pobierz wszystkie obszary i zapisz tylko wybrane</string>
-    <string name="fragment_settings_card_sources_filter_remote">Pobierz tylko wybrane obszary z lacells (dane mogą być przestarzałe)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Pobierz tylko wybrane obszary z lacells</string>
 
     <string name="fragment_settings_opencellid_error_title">Nie można włączyć OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Błąd połączenia</string>

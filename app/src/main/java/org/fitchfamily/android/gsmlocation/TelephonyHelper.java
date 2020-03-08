@@ -192,17 +192,30 @@ class TelephonyHelper {
                 }
             } else continue;
 
-            if (mcc >= 0) Log.i(TAG, "CellInfo: " + tech + " MCC=" + mcc + " MNC="
+            if (mcc <= 0) continue;
+
+            // Uncomment to simulate 0-prefix MNC bug
+            //if (DEBUG) mnc = -1;
+
+            Log.i(TAG, "CellInfo: " + tech + " MCC=" + mcc + " MNC="
                     + mnc + " CID=" + cid + " LAC=" + lac + " dBm=" + Math.round(dBm));
+            if (cid == CellInfo.UNAVAILABLE || lac == CellInfo.UNAVAILABLE
+                    || mcc < 200 || mcc == 999) continue;
 
-            if (mcc >= 200 && mcc != 999 && mnc >= 0 && cid != CellInfo.UNAVAILABLE && lac != CellInfo.UNAVAILABLE) {
-                cellLocation = db.query(mcc, mnc, cid, lac);
 
-                if ((cellLocation != null)) {
-                    if (cellLocation.getAccuracy() > range) cellLocation.setAccuracy((float) range);
-                    rslt.add(cellLocation);
-                }
+            // Workaround for 0-prefix MNC bug
+            if (mnc < 0 && inputCellInfo.isRegistered()) {
+                mnc = toInteger(tm.getNetworkOperator().substring(3));
+                Log.w(TAG, "Fixed MNC=" + mnc);
             }
+
+            cellLocation = db.query(mcc, mnc, cid, lac);
+
+            if ((cellLocation != null)) {
+                if (cellLocation.getAccuracy() > range) cellLocation.setAccuracy((float) range);
+                rslt.add(cellLocation);
+            }
+
         }
         if (rslt.isEmpty()) return null;
         return rslt;

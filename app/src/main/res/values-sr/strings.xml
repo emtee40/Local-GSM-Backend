@@ -97,7 +97,7 @@
     <string name="fragment_settings_card_sources_title">Извори</string>
 
     <string name="fragment_settings_card_sources_filter_on_phone">Преузми све области и сачувај само наведене</string>
-    <string name="fragment_settings_card_sources_filter_remote">Преузми наведене области са lacells (подаци су можда застарели)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Преузми наведене области са lacells</string>
 
     <string name="fragment_settings_opencellid_error_title">Не могу да укључим OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Неуспех повезивања</string>

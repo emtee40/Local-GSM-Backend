@@ -108,7 +108,7 @@
     <string name="fragment_settings_card_sources_title">Джерела</string>
 
     <string name="fragment_settings_card_sources_filter_on_phone">Завантажити всі регіони та зберегти лише обрані</string>
-    <string name="fragment_settings_card_sources_filter_remote">Завантажити обрані регіони із lacells (дані можуть бути не актуальні)</string>
+    <string name="fragment_settings_card_sources_filter_remote">Завантажити обрані регіони із lacells</string>
 
     <string name="fragment_settings_opencellid_error_title">Не можливо увімкнути OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Помилка з\'єднання</string>
