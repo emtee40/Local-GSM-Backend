@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+
 import androidx.fragment.app.Fragment;
+
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -17,7 +20,7 @@ public class Settings {
     private static final String DB_BAK_NAME = DB_NAME + ".bak";
     private static final String DB_NEW_NAME = DB_NAME + ".new";
     private static final String LOG_NAME = "lacells_gen.log";
-    private static final String[] FILE_NAMES = new String[] {
+    private static final String[] FILE_NAMES = new String[]{
             DB_NAME,
             DB_BAK_NAME,
             DB_NEW_NAME,
@@ -41,7 +44,7 @@ public class Settings {
     private static final String MNC_FILTER = "mnc_filter_preference";
 
     private static final String MCC_FILTER = "mcc_filter_preference";
-    
+
     private static final String EXTERNAL_DATABASE_LOCATION = "ext_db_preference";
 
     private static final Object lock = new Object();
@@ -57,7 +60,7 @@ public class Settings {
     }
 
     private void moveFilesToNewDirectory(String... filenames) {
-        for(String filename : filenames) {
+        for (String filename : filenames) {
             moveFileToNewDirectory(filename);
         }
     }
@@ -65,7 +68,7 @@ public class Settings {
     private void moveFileToNewDirectory(String filename) {
         File oldFile = new File(DATABASE_DIRECTORY_OLD, filename);
 
-        if(oldFile.exists() && oldFile.canWrite()) {
+        if (oldFile.exists() && oldFile.canWrite()) {
             /*
              * This will work because "/sdcard/.nogapps/" and
              * "/sdcard/Android/data/org.fitchfamily.android-gsmlocation/files" are on the
@@ -81,13 +84,13 @@ public class Settings {
     }
 
     public static Settings with(Context context) {
-        if(context == null) {
+        if (context == null) {
             throw new NullPointerException();
         }
 
-        if(instance == null) {
+        if (instance == null) {
             synchronized (lock) {
-                if(instance == null) {
+                if (instance == null) {
                     instance = new Settings(context);
                 }
             }
@@ -97,7 +100,16 @@ public class Settings {
     }
 
     public String mccFilters() {
-        return preferences.getString(MCC_FILTER, "");
+
+        String s = preferences.getString(MCC_FILTER, "");
+        if (s.isEmpty()) {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            if (tm != null) {
+                s = tm.getNetworkOperator().substring(0,3);
+                preferences.edit().putString(MCC_FILTER, s).apply();
+            }
+        }
+        return s;
     }
 
     public String mncFilters() {
