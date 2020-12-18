@@ -10,11 +10,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Not applicable
 
 ### Changed
-- Update Ukrainian Translation. Thanks to @burunduk
-- Update build environment
+- Not applicable
 
 ### Removed
 - Not applicable
+
+## [1.4.23] 2020-12-18
+### Changed
+- Update url for mozilla database
+- Add possibility to set custom url for mozilla database in settings
+- Avoid using legacy function for LTE cell info, it fixes some dual sim configurations
+
+## [1.4.22] 2018-06-17
+### Changed
+- Update Ukrainian Translation. Thanks to @burunduk
+- Update build environment
 
 ## [1.4.21] 2018-01-26
 ### Changed

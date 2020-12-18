@@ -1,0 +1,3 @@
+- Update url for mozilla database
+- Add possibility to set custom url for mozilla database in settings
+- Avoid using legacy function for LTE cell info, it fixes some dual sim configurations
