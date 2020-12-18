@@ -10,3 +10,5 @@ build/
 .gradle/
 user.gradle
 local.properties
+*.sh
+*.keystore
