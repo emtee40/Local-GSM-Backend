@@ -212,7 +212,7 @@ class TelephonyHelper {
             cellLocation = db.query(mcc, mnc, cid, lac);
 
             if ((cellLocation != null)) {
-                if (cellLocation.getAccuracy() > range) cellLocation.setAccuracy((float) range);
+                //if (cellLocation.getAccuracy() > range) cellLocation.setAccuracy((float) range);
                 rslt.add(cellLocation);
             }
 
