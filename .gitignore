@@ -12,3 +12,8 @@ user.gradle
 local.properties
 *.sh
 *.keystore
+*.diff
+*.patch
+*.rej
+*.orig
+*.db
