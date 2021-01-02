@@ -185,10 +185,13 @@ class TelephonyHelper {
                 } else {
                     ServiceState state = new ServiceState();
                     // https://groups.google.com/forum/#!msg/android-developers/ASVpv7RbLL8/hRYtSerT3RAJ
-                    mcc = toInteger(state.getOperatorNumeric().substring(0, 3));
-                    mnc = id.getSystemId();
-                    cid = id.getBasestationId();
-                    lac = id.getNetworkId();
+                    String s = state.getOperatorNumeric();
+                    if (s != null && s.length() >= 3) {
+                        mcc = toInteger(state.getOperatorNumeric().substring(0, 3));
+                        mnc = id.getSystemId();
+                        cid = id.getBasestationId();
+                        lac = id.getNetworkId();
+                    }
                 }
             } else continue;
 
@@ -205,8 +208,11 @@ class TelephonyHelper {
 
             // Workaround for 0-prefix MNC bug
             if (mnc < 0 && inputCellInfo.isRegistered()) {
-                mnc = toInteger(tm.getNetworkOperator().substring(3));
-                Log.w(TAG, "Fixed MNC=" + mnc);
+                String s = tm.getNetworkOperator();
+                if (s != null && s.length() >= 3) {
+                    mnc = toInteger(tm.getNetworkOperator().substring(3));
+                    Log.w(TAG, "Fixed MNC=" + mnc);
+                }
             }
 
             cellLocation = db.query(mcc, mnc, cid, lac);

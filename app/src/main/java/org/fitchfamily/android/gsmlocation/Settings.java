@@ -105,8 +105,11 @@ public class Settings {
         if (s.isEmpty()) {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             if (tm != null) {
-                s = tm.getNetworkOperator().substring(0,3);
-                preferences.edit().putString(MCC_FILTER, s).apply();
+                s = tm.getNetworkOperator();
+                if (s != null && s.length() >= 3) {
+                    s = s.substring(0,3);
+                    preferences.edit().putString(MCC_FILTER, s).apply();
+                }
             }
         }
         return s;
