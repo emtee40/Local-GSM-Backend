@@ -19,7 +19,7 @@ public class GsmService extends LocationBackendService {
     private static final String TAG = makeLogTag("service");
     private static final boolean DEBUG = Config.DEBUG;
     private TelephonyHelper th;
-    //private TelephonyManager.CellInfoCallback cellInfoCallback = null;
+    private TelephonyManager.CellInfoCallback cellInfoCallback = null;
     private TelephonyManager tm = null;
     private Location lastKnownLocation = null;
     private Boolean seenCellInfoChanged = false;
@@ -38,21 +38,21 @@ public class GsmService extends LocationBackendService {
     protected synchronized Location update() {
         if (DEBUG) Log.d(TAG, "update()");
 
-        //if (Build.VERSION.SDK_INT >= 29 && tm != null) {
-        //    if (cellInfoCallback == null)
-        //        cellInfoCallback = new TelephonyManager.CellInfoCallback() {
-        //            @Override
-        //            public void onCellInfo(@Nullable List<android.telephony.CellInfo> cellInfo) {
-        //                if (DEBUG) Log.v(TAG, "onCellInfo() callback!");
-        //            }
-        //
-        //            @Override
-        //            public void onError(int errorCode, Throwable detail) {
-        //                Log.e(TAG, "onError(): " + detail.getMessage());
-        //            }
-        //        };
-        //    tm.requestCellInfoUpdate(getMainExecutor(), cellInfoCallback);
-        //}
+        if (Build.VERSION.SDK_INT >= 29 && tm != null) {
+            if (cellInfoCallback == null)
+                cellInfoCallback = new TelephonyManager.CellInfoCallback() {
+                    @Override
+                    public void onCellInfo(@Nullable List<android.telephony.CellInfo> cellInfo) {
+                        if (DEBUG) Log.v(TAG, "onCellInfo() callback!");
+                    }
+
+                    @Override
+                    public void onError(int errorCode, Throwable detail) {
+                        Log.e(TAG, "onError(): " + detail.getMessage());
+                    }
+                };
+            tm.requestCellInfoUpdate(getMainExecutor(), cellInfoCallback);
+        }
 
         if (!seenCellInfoChanged) {
             Location location = th.getLocationEstimate(null);
