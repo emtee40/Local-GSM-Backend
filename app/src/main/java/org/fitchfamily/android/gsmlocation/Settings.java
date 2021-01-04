@@ -208,6 +208,16 @@ public class Settings {
 
         return this;
     }
+    
+    public Settings getMozillaCustomURL(String key) {
+        if (!TextUtils.equals(key, getMozillaCustomURL())) {
+            preferences.edit()
+                    .putString(MOZILLA_CUSTOM_URL, key)
+                    .commit();
+        }
+
+        return this;
+    }
 
     public Settings useMozillaLocationService(boolean enable) {
         if (enable != useMozillaLocationService()) {
