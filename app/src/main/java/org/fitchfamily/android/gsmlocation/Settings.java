@@ -47,6 +47,8 @@ public class Settings {
 
     private static final String EXTERNAL_DATABASE_LOCATION = "ext_db_preference";
 
+    private static final String CALCULATE_AREA_RANGE = "calculate_area_range";
+
     private static final Object lock = new Object();
     private static Settings instance;
 
@@ -138,6 +140,10 @@ public class Settings {
     public boolean useMozillaLocationService() {
         return preferences.getBoolean(USE_MOZILLA_LOCATION_SERVICE, false);
     }
+    
+    public boolean calculateAreaRange() {
+        return preferences.getBoolean(CALCULATE_AREA_RANGE, false);
+    }
 
     public File databaseDirectory() {
         File extDir = new File(preferences.getString(EXTERNAL_DATABASE_LOCATION, ""));
@@ -223,6 +229,16 @@ public class Settings {
         if (enable != useMozillaLocationService()) {
             preferences.edit()
                     .putBoolean(USE_MOZILLA_LOCATION_SERVICE, enable)
+                    .commit();
+        }
+
+        return this;
+    }
+    
+    public Settings calculateAreaRange(boolean enable) {
+        if (enable != calculateAreaRange()) {
+            preferences.edit()
+                    .putBoolean(CALCULATE_AREA_RANGE, enable)
                     .commit();
         }
 

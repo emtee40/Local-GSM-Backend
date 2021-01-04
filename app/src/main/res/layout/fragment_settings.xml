@@ -29,6 +29,8 @@
 
             <include layout="@layout/fragment_settings_card_areas"/>
 
+            <include layout="@layout/fragment_settings_card_others"/>
+
         </LinearLayout>
     </ScrollView>
 

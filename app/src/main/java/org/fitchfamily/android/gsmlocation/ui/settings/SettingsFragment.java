@@ -63,6 +63,9 @@ public class SettingsFragment extends BaseFragment {
 
     @ViewById
     protected CheckBox mozillaLocationServices;
+    
+    @ViewById
+    protected CheckBox calculateAreaRange;
 
     @ViewById
     protected ProgressBar openCellIdProgress;
@@ -114,6 +117,7 @@ public class SettingsFragment extends BaseFragment {
     protected void init() {
         openCellId.setChecked(Settings.with(this).useOpenCellId());
         mozillaLocationServices.setChecked(Settings.with(this).useMozillaLocationService());
+        calculateAreaRange.setChecked(Settings.with(this).calculateAreaRange());
 
         if(Settings.with(this).useLacells()) {
             filterRemote.setChecked(true);
@@ -148,6 +152,11 @@ public class SettingsFragment extends BaseFragment {
     @CheckedChange
     protected void mozillaLocationServices(boolean checked) {
         Settings.with(this).useMozillaLocationService(checked);
+    }
+    
+    @CheckedChange
+    protected void calculateAreaRange(boolean checked) {
+        Settings.with(this).calculateAreaRange(checked);
     }
 
     @CheckedChange

@@ -151,6 +151,10 @@
     <string name="fragment_settings_advanced_title">Advanced Settings</string>
 
     <string name="activity_area_list_search_hint">Search</string>
+    
+    <string name="other_settings_title">Other Settings</string>
+    
+    <string name="other_settings_calculate_area_range">Area range based on singnal strength</string>
 
     <string name="activity_main_about">About</string>
 </resources>

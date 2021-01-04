@@ -24,6 +24,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import org.fitchfamily.android.gsmlocation.database.CellLocationDatabase;
+import org.fitchfamily.android.gsmlocation.Settings;
 import org.microg.nlp.api.LocationHelper;
 
 import java.util.ArrayList;
@@ -38,8 +39,10 @@ class TelephonyHelper {
     private TelephonyManager tm;
     private CellLocationDatabase db;
     private long lastTimeStamp = 0;
+    private final Context context;
 
     TelephonyHelper(Context context) {
+        this.context = context.getApplicationContext();
         tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         db = new CellLocationDatabase(context);
     }
@@ -218,7 +221,10 @@ class TelephonyHelper {
             cellLocation = db.query(mcc, mnc, cid, lac);
 
             if ((cellLocation != null)) {
-                //if (cellLocation.getAccuracy() > range) cellLocation.setAccuracy((float) range);
+                if (Settings.with(context).calculateAreaRange() && 
+                    cellLocation.getAccuracy() > range) {
+                    cellLocation.setAccuracy((float) range);
+                }
                 rslt.add(cellLocation);
             }
 
