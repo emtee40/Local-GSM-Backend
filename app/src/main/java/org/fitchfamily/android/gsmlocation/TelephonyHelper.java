@@ -17,8 +17,11 @@ import android.telephony.CellInfoLte;
 import android.telephony.CellInfoNr;
 import android.telephony.CellInfoTdscdma;
 import android.telephony.CellInfoWcdma;
+import android.telephony.CellLocation;
+import android.telephony.NeighboringCellInfo;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
+import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -27,6 +30,8 @@ import org.fitchfamily.android.gsmlocation.database.CellLocationDatabase;
 import org.fitchfamily.android.gsmlocation.Settings;
 import org.microg.nlp.api.LocationHelper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -40,9 +45,14 @@ class TelephonyHelper {
     private CellLocationDatabase db;
     private long lastTimeStamp = 0;
     private final Context context;
+    private Method getNeighboringCellInfoMethod;
+    private boolean hasGetNeighboringCellInfo = false;
 
     TelephonyHelper(Context context) {
         this.context = context.getApplicationContext();
+        if (Build.VERSION.SDK_INT <= 28) {
+            loadGetNeighboringClassMethod();
+        }
         tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         db = new CellLocationDatabase(context);
     }
@@ -64,18 +74,31 @@ class TelephonyHelper {
         if (range < 100) return 100;
         return range;
     }
+    
+    private void loadGetNeighboringClassMethod() {
+        try {
+            Class<?> tmClass = Class.forName("android.telephony.TelephonyManager");
+            getNeighboringCellInfoMethod = tmClass.getMethod("getNeighboringCellInfo");
+        } catch (final ClassNotFoundException e) {
+            if (DEBUG)
+                Log.d(TAG, "ClassNotFoundException: Cannot get getNeighboringCellInfo method");
+            hasGetNeighboringCellInfo = false;
+            return;
+        } catch (final NoSuchMethodException e) {
+            if (DEBUG)
+                Log.d(TAG, "NoSuchMethodException: Cannot get getNeighboringCellInfo method");
+            hasGetNeighboringCellInfo = false;
+            return;
+        }
+        if (DEBUG)
+            Log.d(TAG, "hasGetNeighboringCellInfo");
+        hasGetNeighboringCellInfo = true;
+    }
 
     @Nullable
     private synchronized List<Location> getTowerLocations(List<android.telephony.CellInfo> allCells) {
 
         if (tm == null) return null;
-
-        if (allCells == null) try {
-            allCells = tm.getAllCellInfo();
-        } catch (SecurityException e) {
-            Log.e(TAG, "SecurityException: " + e.getMessage());
-            return null;
-        }
 
         //if (DEBUG) Log.d(TAG, "getAllCellInfo(): " + allCells.toString());
 
@@ -83,16 +106,6 @@ class TelephonyHelper {
             Log.i(TAG, "getAllCellInfo() returned null or empty set");
             return null;
         }
-
-        long l = allCells.get(0).getTimeStamp();
-        if (l == lastTimeStamp) {
-            Log.d(TAG, "Same timestamp: " + Long.toString(l));
-            return null;
-        }
-        Log.d(TAG, "New timestamp: " + Long.toString(l));
-        lastTimeStamp = l;
-
-        db.checkForNewDatabase();
 
         List<Location> rslt = new ArrayList<Location>();
 
@@ -232,6 +245,72 @@ class TelephonyHelper {
         if (rslt.isEmpty()) return null;
         return rslt;
     }
+    
+    public synchronized List<Location> legacyGetCellTowers() {
+        if (tm == null)
+            return null;
+
+        List<Location> rslt = new ArrayList<Location>();
+        String mncString = tm.getNetworkOperator();
+
+        if ((mncString == null) || (mncString.length() < 5) || (mncString.length() > 6)) {
+            if (DEBUG)
+                Log.i(TAG, "legacyGetCellTowers(): mncString is NULL or not recognized.");
+            return null;
+        }
+        int mcc = 0;
+        int mnc = 0;
+        try {
+            mcc = Integer.parseInt(mncString.substring(0, 3));
+            mnc = Integer.parseInt(mncString.substring(3));
+        } catch (NumberFormatException e) {
+            if (DEBUG)
+                Log.i(TAG, "legacyGetCellTowers(), Unable to parse mncString: " + e.toString());
+            return null;
+        }
+        final CellLocation cellLocation = tm.getCellLocation();
+
+        if ((cellLocation != null) && (cellLocation instanceof GsmCellLocation)) {
+            GsmCellLocation cell = (GsmCellLocation) cellLocation;
+            Location cellLocInfo = db.query(mcc, mnc, cell.getCid(), cell.getLac());
+            if (cellLocInfo != null)
+                rslt.add(cellLocInfo);
+            else if (DEBUG)
+                Log.i(TAG, "Unknown cell tower detected: mcc="+mcc+
+                        ", mnc="+mnc+", cid="+cell.getCid()+", lac="+cell.getLac());
+        } else {
+            if (DEBUG)
+                Log.i(TAG, "getCellLocation() returned null or no GsmCellLocation.");
+        }
+
+        if (hasGetNeighboringCellInfo) {
+            try {
+                final List<NeighboringCellInfo> neighbours = (List<NeighboringCellInfo>)getNeighboringCellInfoMethod.invoke(tm);
+                if ((neighbours != null) && !neighbours.isEmpty()) {
+                    for (NeighboringCellInfo neighbour : neighbours) {
+                        Location cellLocInfo = db.query(mcc, mnc, neighbour.getCid(), neighbour.getLac());
+                        if (cellLocInfo != null) {
+                            rslt.add(cellLocInfo);
+                        }
+                    }
+                } else {
+                    if (DEBUG) Log.i(TAG, "getNeighboringCellInfo() returned null or empty set.");
+                }
+            } catch (IllegalAccessException e) {
+                if (DEBUG) Log.i(TAG, "IllegalAccessException for getNeighboringCellInfoMethod");
+            } catch (InvocationTargetException e) {
+                if (DEBUG) Log.i(TAG, "InvocationTargetException for getNeighboringCellInfoMethod");
+            } catch (NoSuchMethodError e) {
+                if (DEBUG) Log.i(TAG, "no such method: getNeighboringCellInfo().");
+            }
+        }
+        if (rslt.isEmpty() && DEBUG) {
+            Log.i(TAG, "No known cell towers found.");
+        }
+        if (rslt.isEmpty())
+            return null;
+        return rslt;
+    }
 
     private Location weightedAverage(Collection<Location> locations) {
         Location rslt;
@@ -299,8 +378,44 @@ class TelephonyHelper {
     }
 
     synchronized Location getLocationEstimate(List<android.telephony.CellInfo> allCells) {
-        if (tm == null) return null;
-        return weightedAverage(getTowerLocations(allCells));
+        if (tm == null) 
+            return null;
+            
+        db.checkForNewDatabase();
+        
+        if (allCells == null) try {
+            allCells = tm.getAllCellInfo();
+        } catch (SecurityException e) {
+            Log.e(TAG, "SecurityException: " + e.getMessage());
+        }
+        
+        List<Location> rslt = null;
+
+        if ((allCells != null) && !allCells.isEmpty()) {
+            long l = allCells.get(0).getTimeStamp();
+            if (l == lastTimeStamp) {
+                Log.d(TAG, "Same timestamp: " + Long.toString(l));
+                return null;
+            }
+            Log.d(TAG, "New timestamp: " + Long.toString(l));
+            lastTimeStamp = l;
+            
+            rslt = getTowerLocations(allCells);
+        }
+        
+        if (rslt == null || rslt.isEmpty()) {
+            if (DEBUG)
+                Log.i(TAG, "getTowerLocations() returned nothing, trying legacyGetCellTowers().");
+            rslt = legacyGetCellTowers();
+        }
+        
+        if ((rslt == null) || rslt.isEmpty()) {
+            if (DEBUG) 
+                Log.i(TAG, "getTowerLocations(): No tower information.");
+            return null;
+        }
+            
+        return weightedAverage(rslt);
     }
 }
 
