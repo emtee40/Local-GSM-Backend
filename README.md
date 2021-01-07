@@ -1,7 +1,3 @@
-NOTICE
-======
-The author of this backend is now primarily focused on the [Déjá Vu backend](https://github.com/n76/DejaVu). Bug fixes and pull requests will be accepted for this backend but it will not be as well supported as Déjá Vu going forward.
-
 GSM LocationProvider backend for µg UnifiedNlp
 ==============================================
 
@@ -73,7 +69,8 @@ Permisssions
 ============
 |Permission|Use|
 |:----------|:---|
-ACCESS_COARSE_LOCATION|Allows backend to determine which cell towers your phone detects.
+ACCESS_FINE_LOCATION|Allows backend to determine which cell towers your phone detects.
+ACCESS_BACKGROUND_LOCATION|Android >= 10 needs this to access location in the background.
 INTERNET|Allows database creator to pull cell tower data from OpenCellID, Mozilla, etc.
 WAKE_LOCK|Allows database generation service to run without being put to sleep.
 WRITE_EXTERNAL_STORAGE|Allows database to reside on external storage.
