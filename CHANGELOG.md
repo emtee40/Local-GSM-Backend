@@ -7,15 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Not applicable
+
+### Changed
+- Not applicable
+
+### Removed
+- Not applicable
+
+## [1.5.0] 2021-01-08
+### Added
 - Added a possibility to calculate area range based on signal strength. It can be enabled in options. Thanks to @ploink
 - 5G cells support. Thanks to @ploink
 - Remember last known location. Thanks to @ploink
 
 ### Changed
 - Updated project to Android 10. Thanks to @ploink
-
-### Removed
-- Not applicable
 
 ## [1.4.23] 2020-12-18
 ### Changed

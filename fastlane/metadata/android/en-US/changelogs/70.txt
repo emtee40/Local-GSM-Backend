@@ -1,0 +1,4 @@
+- Added a possibility to calculate area range based on signal strength. It can be enabled in options. Thanks to @ploink
+- 5G cells support. Thanks to @ploink
+- Remember last known location. Thanks to @ploink
+- Updated project to Android 10. Thanks to @ploink
