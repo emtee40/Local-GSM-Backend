@@ -17,7 +17,8 @@ public abstract class OpenCellId {
         // Old style keys
         return  key.matches(
                 "(?:[0-9a-f]{8}|dev-usr-)-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}") ||
-                key.matches(("(?:[0-9a-f]{14})"));       // New style keys
+                key.matches(("(?:[0-9a-f]{14})")) ||
+                key.matches(("(?:pk.[0-9a-f]{32})"));       // New style keys
     }
 
     public static void throwIfApiKeyInvalid(String key) {
