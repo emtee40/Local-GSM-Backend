@@ -38,6 +38,8 @@
     <string name="invalid_oci_api_key">The given API key is incorrect. Enter a valid one (or disable
         the OpenCellID data source).
     </string>
+    <string name="unrecognized_oci_api_key">The given API key is not recognized. Make sure it\'s correct.
+    </string>
 
     <string name="log_MCC_FILTER">MCC filter:
         <xliff:g example="42,48" id="MCC filter">%1$s</xliff:g>

@@ -118,7 +118,8 @@ public class AdvancedSettingsFragment extends PreferenceFragment implements Pref
 
     private void bindPreferenceSummaryToValue(Preference preference) {
         preference.setOnPreferenceChangeListener(this);
-        onPreferenceChange(preference, sp.getString(preference.getKey(), ""));
+        Object newValue = sp.getString(preference.getKey(), "");
+        preference.setSummary(newValue.toString());
         preferences.add(preference);
     }
 
@@ -129,12 +130,10 @@ public class AdvancedSettingsFragment extends PreferenceFragment implements Pref
         if (prefKey.equals("oci_key_preference")) {
             String newKey = newValue.toString();
             if (!newKey.isEmpty() && !OpenCellId.isApiKeyValid(newKey)) {
-                new AlertDialog.Builder(getActivity()).setMessage(R.string.invalid_oci_api_key)
+                new AlertDialog.Builder(getActivity()).setMessage(R.string.unrecognized_oci_api_key)
                         .setCancelable(false).setPositiveButton(android.R.string.ok, null).show();
-                return false;
-            } else {
-                preference.setSummary(newValue.toString());
             }
+            preference.setSummary(newValue.toString());
         } else {
             preference.setSummary(newValue.toString());
         }

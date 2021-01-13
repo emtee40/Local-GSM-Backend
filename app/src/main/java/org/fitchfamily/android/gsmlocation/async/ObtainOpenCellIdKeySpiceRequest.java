@@ -45,7 +45,7 @@ public class ObtainOpenCellIdKeySpiceRequest extends SpiceRequest<ObtainOpenCell
                     throw new IOException("wrong content length");
                 } else {
                     String newKey = new String(buf, "UTF-8");
-                    OpenCellId.throwIfApiKeyInvalid(newKey);
+                    //OpenCellId.throwIfApiKeyInvalid(newKey);
                     Settings.with(context).openCellIdApiKey(newKey);
 
                     return null;
