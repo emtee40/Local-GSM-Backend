@@ -13,6 +13,8 @@
     <string name="oci_config">OpenCellID Configuration</string>
     <string name="oci_api_label">OpenCellId API</string>
     <string name="oci_api_description">See http://wiki.opencellid.org/wiki/API</string>
+    <string name="oci_url_label">OpenCellId Custom URL</string>
+    <string name="oci_url_description">URL format https://foo.bar/downloads?token=%s&amp;file=cell_towers.csv.gz</string>
 
     <string name="mozilla_config">Mozilla Configuration</string>
     <string name="mozilla_url_label">Mozilla Custom URL</string>

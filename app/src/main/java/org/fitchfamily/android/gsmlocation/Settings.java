@@ -39,6 +39,8 @@ public class Settings {
 
     private static final String OPEN_CELL_ID_API_KEY = "oci_key_preference";
 
+    private static final String OPEN_CELL_ID_CUSTOM_URL = "oci_url_preference";
+
     private static final String MOZILLA_CUSTOM_URL = "mozilla_url_preference";
 
     private static final String MNC_FILTER = "mnc_filter_preference";
@@ -133,6 +135,10 @@ public class Settings {
         return preferences.getBoolean(USE_OPEN_CELL_ID, false);
     }
     
+    public String getOpenCellIdCustomURL() {
+        return preferences.getString(OPEN_CELL_ID_CUSTOM_URL, "");
+    }
+
     public String getMozillaCustomURL() {
         return preferences.getString(MOZILLA_CUSTOM_URL, "");
     }
@@ -215,6 +221,16 @@ public class Settings {
         return this;
     }
     
+    public Settings getOpenCellIdCustomURL(String key) {
+        if (!TextUtils.equals(key, getOpenCellIdCustomURL())) {
+            preferences.edit()
+                    .putString(OPEN_CELL_ID_CUSTOM_URL, key)
+                    .commit();
+        }
+
+        return this;
+    }
+
     public Settings getMozillaCustomURL(String key) {
         if (!TextUtils.equals(key, getMozillaCustomURL())) {
             preferences.edit()

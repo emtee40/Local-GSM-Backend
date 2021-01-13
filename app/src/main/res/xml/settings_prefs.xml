@@ -5,6 +5,11 @@
             android:key="oci_key_preference"
             android:maxLength="36"
             android:title="@string/oci_api_label" />
+        <EditTextPreference
+            android:dialogTitle="@string/oci_url_description"
+            android:key="oci_url_preference"
+            android:maxLength="1024"
+            android:title="@string/oci_url_label" />
     </PreferenceCategory>
     
     <PreferenceCategory android:title="@string/mozilla_config">

@@ -159,7 +159,13 @@ public class DownloadSpiceRequest extends SpiceRequest<DownloadSpiceRequest.Resu
             // only use the other sources when lacells is not enabled
 
             if (Settings.with(context).useOpenCellId()) {
-                sources.add(new Source(String.format(Locale.US, Config.OCI_URL_FMT, Settings.with(context).openCellIdApiKey()), Source.Compression.gzip));
+                String ociUrlFmt;
+                if (!Settings.with(context).getOpenCellIdCustomURL().isEmpty())
+                    ociUrlFmt = Settings.with(context).getOpenCellIdCustomURL();
+                else
+                    ociUrlFmt = Config.OCI_URL_FMT;
+                    
+                sources.add(new Source(String.format(Locale.US, ociUrlFmt, Settings.with(context).openCellIdApiKey()), Source.Compression.gzip));
             }
 
             if (Settings.with(context).useMozillaLocationService()) {
