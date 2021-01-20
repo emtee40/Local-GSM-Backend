@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Not applicable
 
+## [1.5.1] 2021-01-21
+### Changed
+- Fixed downloading database from OpenCellId with new tokens
+
 ## [1.5.0] 2021-01-08
 ### Added
 - Added a possibility to calculate area range based on signal strength. It can be enabled in options. Thanks to @ploink

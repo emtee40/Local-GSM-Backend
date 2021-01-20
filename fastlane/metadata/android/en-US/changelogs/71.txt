@@ -1,0 +1,1 @@
+- Fixed downloading database from OpenCellId with new tokens
