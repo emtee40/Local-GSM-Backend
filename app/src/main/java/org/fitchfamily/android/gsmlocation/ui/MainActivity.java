@@ -25,6 +25,7 @@ import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 import org.fitchfamily.android.gsmlocation.Config;
 import org.fitchfamily.android.gsmlocation.R;
+import org.fitchfamily.android.gsmlocation.Settings;
 import org.fitchfamily.android.gsmlocation.ui.database.UpdateDatabaseFragment;
 import org.fitchfamily.android.gsmlocation.ui.database.UpdateDatabaseFragment_;
 import org.fitchfamily.android.gsmlocation.ui.settings.AdvancedSettingsFragment_;
@@ -114,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements UpdateDatabaseFra
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 2);
         } else if (Build.VERSION.SDK_INT >= 23)
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
+            
+        Settings.with(this).initSettings();
     }
 
     private void setFragment(Fragment fragment) {

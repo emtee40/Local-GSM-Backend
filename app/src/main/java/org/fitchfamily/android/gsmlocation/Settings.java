@@ -31,6 +31,8 @@ public class Settings {
 
     private static final boolean USE_LACELLS_DEFAULT = false;
 
+    private static final String FIRST_RUN = "first_run";
+    
     private static final String USE_LACELLS = "lacells_preference";
 
     private static final String USE_MOZILLA_LOCATION_SERVICE = "mls_preference";
@@ -102,9 +104,15 @@ public class Settings {
 
         return instance;
     }
+    
+    public void initSettings() {
+        boolean first_run = preferences.getBoolean(FIRST_RUN, true);
+        
+        if (!first_run) 
+            return;
 
-    public String mccFilters() {
-
+        preferences.edit().putBoolean(FIRST_RUN, false).apply();
+        
         String s = preferences.getString(MCC_FILTER, "");
         if (s.isEmpty()) {
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -116,7 +124,10 @@ public class Settings {
                 }
             }
         }
-        return s;
+    }
+
+    public String mccFilters() {
+        return preferences.getString(MCC_FILTER, "");
     }
 
     public String mncFilters() {
