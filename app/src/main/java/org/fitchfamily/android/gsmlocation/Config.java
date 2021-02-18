@@ -12,7 +12,7 @@ public class Config {
     public static final String OCI_URL_FMT = "https://download.unwiredlabs.com/ocid/downloads?token=%s&file=cell_towers.csv.gz";
 
     // URL for requesting new OpenCellID API key
-    public static final String OCI_API_GET_KEY_URL = "http://opencellid.org/gsmCell/user/generateApiKey";
+    public static final String OCI_API_GET_KEY_URL = "https://opencellid.org/gsmCell/user/generateApiKey";
 
     // URL for lacells
     public static final String LACELLS_MCC_URL = "https://wvengen.github.io/lacells/lacells-countries.csv";
