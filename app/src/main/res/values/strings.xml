@@ -11,9 +11,9 @@
     <string name="use_mls">Mozilla Location Services</string>
 
     <string name="oci_config">OpenCellID Configuration</string>
-    <string name="oci_api_label">OpenCellId API</string>
-    <string name="oci_api_description">See http://wiki.opencellid.org/wiki/API</string>
-    <string name="oci_url_label">OpenCellId Custom URL</string>
+    <string name="oci_api_label">OpenCellID Access Token</string>
+    <string name="oci_api_description">Get your token at http://opencellid.org/#register</string>
+    <string name="oci_url_label">OpenCellID Custom URL</string>
     <string name="oci_url_description">URL format https://foo.bar/downloads?token=%s&amp;file=cell_towers.csv.gz</string>
 
     <string name="mozilla_config">Mozilla Configuration</string>
@@ -158,7 +158,7 @@
     
     <string name="other_settings_title">Other Settings</string>
     
-    <string name="other_settings_calculate_area_range">Area range based on singnal strength</string>
+    <string name="other_settings_calculate_area_range">Area range based on signal strength</string>
 
     <string name="activity_main_about">About</string>
 </resources>
