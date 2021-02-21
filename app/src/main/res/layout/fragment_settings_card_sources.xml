@@ -36,14 +36,6 @@
             android:layout_height="wrap_content"
             android:text="@string/use_oci"/>
 
-        <ProgressBar
-            android:id="@+id/open_cell_id_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"/>
-
         <RadioButton
             android:text="@string/fragment_settings_card_sources_filter_remote"
             android:id="@+id/filter_remote"

@@ -21,9 +21,7 @@ import org.androidannotations.annotations.ViewById;
 import org.fitchfamily.android.gsmlocation.R;
 import org.fitchfamily.android.gsmlocation.Settings;
 import org.fitchfamily.android.gsmlocation.async.DownloadSpiceRequest;
-import org.fitchfamily.android.gsmlocation.async.ObtainOpenCellIdKeySpiceRequest;
 import org.fitchfamily.android.gsmlocation.data.MobileCountryCodes;
-import org.fitchfamily.android.gsmlocation.services.opencellid.OpenCellIdLimitException;
 import org.fitchfamily.android.gsmlocation.ui.base.BaseFragment;
 import org.fitchfamily.android.gsmlocation.ui.settings.mcc.AreaListActivity_;
 import org.fitchfamily.android.gsmlocation.util.LocaleUtil;
@@ -68,40 +66,10 @@ public class SettingsFragment extends BaseFragment {
     protected CheckBox calculateAreaRange;
 
     @ViewById
-    protected ProgressBar openCellIdProgress;
-
-    @ViewById
     protected RadioButton filterOnPhone;
 
     @ViewById
     protected RadioButton filterRemote;
-
-    private final PendingRequestListener<ObtainOpenCellIdKeySpiceRequest.Result> openCellIdListener = new PendingRequestListener<ObtainOpenCellIdKeySpiceRequest.Result>() {
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            stopObtainingShowingOpenCellIdApiKey();
-
-            OpenCellIdExceptionDialogFragment_.builder()
-                    .reason(
-                            spiceException.getCause() instanceof OpenCellIdLimitException ?
-                                    OpenCellIdExceptionDialogFragment.Reason.day_limit :
-                                    OpenCellIdExceptionDialogFragment.Reason.connection
-                    )
-                    .build()
-                    .show(getFragmentManager());
-        }
-
-        @Override
-        public void onRequestSuccess(ObtainOpenCellIdKeySpiceRequest.Result result) {
-            stopObtainingShowingOpenCellIdApiKey();
-            openCellId.setChecked(true);
-        }
-
-        @Override
-        public void onRequestNotFound() {
-            stopObtainingShowingOpenCellIdApiKey();
-        }
-    };
 
     @ViewById
     protected TextView areaList;
@@ -131,12 +99,6 @@ public class SettingsFragment extends BaseFragment {
     private void updateSourcesVisibility() {
         openCellId.setVisibility(filterOnPhone.isChecked() ? View.VISIBLE : View.GONE);
         mozillaLocationServices.setVisibility(filterOnPhone.isChecked() ? View.VISIBLE : View.GONE);
-    }
-
-    @AfterViews
-    protected void reconnect() {
-        showObtainingOpenCellIdApiKey();
-        getSpiceManager().addListenerIfPending(ObtainOpenCellIdKeySpiceRequest.Result.class, ObtainOpenCellIdKeySpiceRequest.CACHE_KEY, openCellIdListener);
     }
 
     @CheckedChange
@@ -172,21 +134,6 @@ public class SettingsFragment extends BaseFragment {
     @CheckedChange
     protected void filterOnPhone(boolean enabled) {
         filterRemote(!enabled);
-    }
-
-    private void obtainOpenCellIdApiKey() {
-        showObtainingOpenCellIdApiKey();
-        getSpiceManager().execute(new ObtainOpenCellIdKeySpiceRequest(getContext()), ObtainOpenCellIdKeySpiceRequest.CACHE_KEY, DurationInMillis.ALWAYS_EXPIRED, openCellIdListener);
-    }
-
-    private void showObtainingOpenCellIdApiKey() {
-        openCellId.setEnabled(false);
-        openCellIdProgress.setVisibility(View.VISIBLE);
-    }
-
-    private void stopObtainingShowingOpenCellIdApiKey() {
-        openCellId.setEnabled(true);
-        openCellIdProgress.setVisibility(View.GONE);
     }
 
     @Click
