@@ -33,6 +33,8 @@ public class OpenCellIdExceptionDialogFragment extends DialogFragment {
             return getString(R.string.fragment_settings_opencellid_error_connection);
         } else if (reason == Reason.day_limit) {
             return getString(R.string.fragment_settings_opencellid_error_day_limit);
+        } else if (reason == Reason.no_token) {
+            return getString(R.string.fragment_settings_opencellid_error_no_token);
         } else {
             return null;
         }
@@ -43,6 +45,6 @@ public class OpenCellIdExceptionDialogFragment extends DialogFragment {
     }
 
     public enum Reason {
-        connection, day_limit
+        connection, day_limit, no_token
     }
 }

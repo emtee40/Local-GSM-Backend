@@ -143,7 +143,11 @@ public class SettingsFragment extends BaseFragment {
     protected void openCellId(boolean checked) {
         if (checked && TextUtils.isEmpty(Settings.with(this).openCellIdApiKey())) {
             openCellId.setChecked(false);
-            obtainOpenCellIdApiKey();
+            OpenCellIdExceptionDialogFragment_.builder()
+                    .reason(OpenCellIdExceptionDialogFragment.Reason.no_token)
+                    .build()
+                    .show(getFragmentManager());
+                    
         } else {
             Settings.with(this).useOpenCellId(checked);
         }

@@ -124,6 +124,7 @@
     <string name="fragment_settings_opencellid_error_title">Couldn\'t enable OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Connection failed</string>
     <string name="fragment_settings_opencellid_error_day_limit">Try it tomorrow again</string>
+    <string name="fragment_settings_opencellid_error_no_token">OpenCellID token is empty</string>
 
     <string name="activity_main_libraries">External libraries</string>
 
