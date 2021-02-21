@@ -10,8 +10,6 @@
     <string name="use_mls">Mozilla Standortdienste</string>
 
     <string name="oci_config">OpenCellID-Konfiguration</string>
-    <string name="oci_api_label">OpenCellId-API-Schlüssel</string>
-    <string name="oci_api_description">Siehe http://wiki.opencellid.org/wiki/API</string>
 
     <string name="filter_title">Filtern</string>
     <string name="mcc_filter_label">MCC Filter</string>

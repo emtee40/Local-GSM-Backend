@@ -10,8 +10,6 @@
     <string name="use_mls">Serviços de Localização da Mozilla</string>
 
     <string name="oci_config">Configuração do OpenCellID</string>
-    <string name="oci_api_label">API do OpenCellId</string>
-    <string name="oci_api_description">Visite http://wiki.opencellid.org/wiki/API</string>
 
     <string name="filter_title">Filtros</string>
     <string name="mcc_filter_label">Filtro MCC</string>

@@ -10,8 +10,6 @@
     <string name="use_mls">Сервисы геолокации Mozilla</string>
 
     <string name="oci_config">Настройки OpenCellID</string>
-    <string name="oci_api_label">OpenCellId API</string>
-    <string name="oci_api_description">См. http://wiki.opencellid.org/wiki/API</string>
 
     <string name="filter_title">Фильтры</string>
     <string name="mcc_filter_label">MCC фильтр</string>

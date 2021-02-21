@@ -10,8 +10,6 @@
     <string name="use_mls">Мозилине услуге лоцирања</string>
 
     <string name="oci_config">Поставке за OpenCellID</string>
-    <string name="oci_api_label">OpenCellId АПИ</string>
-    <string name="oci_api_description">Погледајте http://wiki.opencellid.org/wiki/API</string>
 
     <string name="filter_title">Филтер</string>
     <string name="mcc_filter_label">МЦЦ филтер</string>

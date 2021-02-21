@@ -11,8 +11,6 @@
     <string name="use_mls">Сервіс позиціювання Mozilla</string>
 
     <string name="oci_config">OpenCellID конфігурація</string>
-    <string name="oci_api_label">OpenCellId API</string>
-    <string name="oci_api_description">Дивіться http://wiki.opencellid.org/wiki/API</string>
 
     <string name="filter_title">Фільтрування</string>
     <string name="mcc_filter_label">MCC фільтр</string>
