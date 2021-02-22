@@ -10,6 +10,14 @@
     <string name="use_mls">Usługa Lokalizacji Mozilla</string>
 
     <string name="oci_config">Konfiguracja OpenCellID</string>
+    <string name="oci_api_label">Token OpenCellID</string>
+    <string name="oci_api_description">Wygeneruj token na http://opencellid.org/#register</string>
+    <string name="oci_url_label">Niestandardowy URL OpenCellID</string>
+    <string name="oci_url_description">Format URL https://foo.bar/downloads?token=%s&amp;file=cell_towers.csv.gz</string>
+
+    <string name="mozilla_config">Konfiguracja Mozilla</string>
+    <string name="mozilla_url_label">Niestandardowy URL Mozilla</string>
+    <string name="mozilla_url_description">Format URL https://foo.bar/MLS-full-cell-export-%sT000000.csv.gz</string>
 
     <string name="filter_title">Filtrowanie</string>
     <string name="mcc_filter_label">Filtr MCC</string>
@@ -23,6 +31,7 @@
     <string name="ext_db_description">Katalog używany przez bazę danych.</string>
 
     <string name="invalid_oci_api_key">Podany klucz API jest niepoprawny. Wprowadź prawidłowy klucz (bądź wyłącz OpenCellID jako źródło danych).</string>
+    <string name="unrecognized_oci_api_key">Podany klucz API nie został rozpoznany. Upewnij się, że jest poprawny.</string>
 
     <string name="log_MCC_FILTER">Filtr MCC:
         <xliff:g example="42,48" id="MCC filter">%1$s</xliff:g>
@@ -33,8 +42,8 @@
     </string>
 
     <string name="log_MNC_WORLD">Brak filtra MNC, uwzględniono wszystkich operatorów</string>
-    <string name="log_GETTING_OCID">Pobieranie informacji o nadajnikach OpenCellID…</string>
-    <string name="log_GETTING_MOZ">Pobieranie informacji o nadajnikach z Usługi Lokalizacji Mozilla…</string>
+    <string name="log_GETTING_OCID">Pobieranie informacji o nadajnikach OpenCellID. . .</string>
+    <string name="log_GETTING_MOZ">Pobieranie informacji o nadajnikach z Usługi Lokalizacji Mozilla. . .</string>
     <string name="log_URL">URL:
         <xliff:g example="http://opencellid.org/downloads/" id="url">%1$s</xliff:g>
     </string>
@@ -46,7 +55,7 @@
         Dodano:
         <xliff:g id="records inserted">%2$d</xliff:g>
     </string>
-    <string name="log_INDICIES">Tworzenie indeksów, aby przyspieszyć dostęp…</string>
+    <string name="log_INDICIES">Tworzenie indeksów, aby przyspieszyć dostęp.</string>
     <string name="log_TOT_TIME">Czas całkowity:
         <xliff:g example="29530" id="time in milliseconds">%1$d</xliff:g>
         ms
@@ -73,9 +82,13 @@
 
     <string name="fragment_update_database_title">Baza danych</string>
 
-    <string name="fragment_update_database_last_update">Ostatnia aktualizacja bazy: <xliff:g example="3 minutes ago" id="time">%1$s</xliff:g></string>
+    <string name="fragment_update_database_last_update">Ostatnia aktualizacja bazy:
+        <xliff:g example="3 minutes ago" id="time">%1$s</xliff:g>
+    </string>
     <string name="fragment_update_database_no_database_found">Brak bazy danych</string>
-    <string name="fragment_update_database_no_permission">Plik bazy danych istnieje, ale  jest nieczytelny. Zmień uprawnienia <xliff:g id="file">%s</xliff:g></string>
+    <string name="fragment_update_database_no_permission">Plik bazy danych istnieje, ale  jest nieczytelny. Zmień uprawnienia
+        <xliff:g id="file">%s</xliff:g>
+    </string>
     <string name="fragment_update_database_start_update">Uaktualnij bazę danych</string>
     <string name="fragment_update_database_create_database">Utwórz bazę danych</string>
     <string name="fragment_update_database_show_details">Pokaż szczegóły</string>
@@ -93,13 +106,13 @@
     <string name="fragment_settings_opencellid_error_title">Nie można włączyć OpenCellID</string>
     <string name="fragment_settings_opencellid_error_connection">Błąd połączenia</string>
     <string name="fragment_settings_opencellid_error_day_limit">Spróbuj ponownie jutro</string>
+    <string name="fragment_settings_opencellid_error_no_token">Token OpenCellID jest pusty</string>
 
     <string name="activity_main_libraries">Zewnętrzne biblioteki</string>
 
     <string name="fragment_settings_card_areas_title">Obszary</string>
 
-    <string name="fragment_settings_card_areas_nothing_chosen">Wybrano nic (czyli wszystko)
-    </string>
+    <string name="fragment_settings_card_areas_nothing_chosen">Nie wybrano nic (czyli wszystko)</string>
     <string name="fragment_settings_card_areas_other">Inne</string>
 
     <string name="fragment_settings_blocked_database_update">Nie możesz zmienić ustawień podczas pobierania bazy danych.</string>
@@ -119,6 +132,10 @@
     <string name="fragment_settings_advanced_title">Zaawansowane ustawienia</string>
 
     <string name="activity_area_list_search_hint">Wyszukaj</string>
+    
+    <string name="other_settings_title">Inne ustawienia</string>
+    
+    <string name="other_settings_calculate_area_range">Zakres obszaru zależy od siły sygnału</string>
 
     <string name="activity_main_about">O programie</string>
 </resources>
