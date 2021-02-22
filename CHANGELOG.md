@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Not applicable
 
+## [1.5.2] 2021-02-22
+### Changed
+- Updated Polish translations
+- Some small fixes
+
 ## [1.5.1] 2021-01-21
 ### Changed
 - Fixed downloading database from OpenCellId with new tokens
