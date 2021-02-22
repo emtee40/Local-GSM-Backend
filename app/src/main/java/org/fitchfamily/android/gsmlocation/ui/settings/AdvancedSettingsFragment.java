@@ -28,8 +28,6 @@ import java.util.Set;
 @EFragment
 @PreferenceScreen(R.xml.settings_prefs)
 public class AdvancedSettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
-    private static final int PREF_DB_PATH_REQUEST_CODE = 42;
-    private static final String PREF_KEY_DB_PATH = "ext_db_preference";
     private SpiceManager spiceManager = new SpiceManager(SpiceService.class);
 
 
@@ -53,7 +51,7 @@ public class AdvancedSettingsFragment extends PreferenceFragment implements Pref
     protected void init() {
         sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        Preference prefDbPath = findPreference(PREF_KEY_DB_PATH);
+        Preference prefDbPath = findPreference("ext_db_preference");
         bindPreferenceSummaryToValue(findPreference("oci_key_preference"));
         bindPreferenceSummaryToValue(findPreference("oci_url_preference"));
         bindPreferenceSummaryToValue(findPreference("mozilla_url_preference"));
@@ -79,36 +77,6 @@ public class AdvancedSettingsFragment extends PreferenceFragment implements Pref
                 setPreferencesEnabled(true);
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            prefDbPath.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    if (preference.hasKey() && (preference.getKey().equals(PREF_KEY_DB_PATH))) {
-                        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-                        i.addCategory(Intent.CATEGORY_DEFAULT);
-                        startActivityForResult(Intent.createChooser(i, "Choose directory"), PREF_DB_PATH_REQUEST_CODE);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch(requestCode) {
-            case PREF_DB_PATH_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK) {
-                    SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-                    prefs.putString(PREF_KEY_DB_PATH, data.getDataString());
-                    prefs.apply();
-                }
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     private void setPreferencesEnabled(boolean enabled) {
