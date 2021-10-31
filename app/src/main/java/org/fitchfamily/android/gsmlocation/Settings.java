@@ -45,6 +45,8 @@ public class Settings {
 
     private static final String MOZILLA_CUSTOM_URL = "mozilla_url_preference";
 
+    private static final String LACELLS_CUSTOM_URL = "lacells_url_preference";
+
     private static final String MNC_FILTER = "mnc_filter_preference";
 
     private static final String MCC_FILTER = "mcc_filter_preference";
@@ -142,6 +144,10 @@ public class Settings {
         return preferences.getBoolean(USE_LACELLS, USE_LACELLS_DEFAULT);
     }
 
+    public String getLacellsCustomURL() {
+        return preferences.getString(LACELLS_CUSTOM_URL, "");
+    }
+
     public boolean useOpenCellId() {
         return preferences.getBoolean(USE_OPEN_CELL_ID, false);
     }
@@ -216,6 +222,16 @@ public class Settings {
         if (enable != useLacells()) {
             preferences.edit()
                     .putBoolean(USE_LACELLS, enable)
+                    .commit();
+        }
+
+        return this;
+    }
+
+    public Settings getLacellsCustomURL(String key) {
+        if (!TextUtils.equals(key, getLacellsCustomURL())) {
+            preferences.edit()
+                    .putString(LACELLS_CUSTOM_URL, key)
                     .commit();
         }
 

@@ -20,6 +20,14 @@
             android:title="@string/mozilla_url_label" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/lacells_config">
+        <EditTextPreference
+                android:dialogTitle="@string/lacells_url_description"
+                android:key="lacells_url_preference"
+                android:maxLength="1024"
+                android:title="@string/lacells_url_label" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/filter_title">
         <EditTextPreference
             android:defaultValue="@string/mcc_default"
