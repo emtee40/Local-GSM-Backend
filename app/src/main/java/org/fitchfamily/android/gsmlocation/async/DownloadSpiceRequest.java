@@ -111,11 +111,17 @@ public class DownloadSpiceRequest extends SpiceRequest<DownloadSpiceRequest.Resu
 
         if (Settings.with(context).useLacells()) {
             Map<Integer, MccDetails> mccMap = new HashMap<>();
+            String lacellsUrlFmt;
+            if (!Settings.with(context).getLacellsCustomURL().isEmpty()) {
+                lacellsUrlFmt = Settings.with(context).getLacellsCustomURL();
+            } else {
+                lacellsUrlFmt = Config.LACELLS_MCC_URL;
+            }
 
             try {
-                final URI baseUrl = new URI(Config.LACELLS_MCC_URL);
+                final URI baseUrl = new URI(lacellsUrlFmt);
 
-                SourceConnection connection = new Source(Config.LACELLS_MCC_URL, Source.Compression.none).connect();
+                SourceConnection connection = new Source(lacellsUrlFmt, Source.Compression.none).connect();
                 CsvParser parser = new CsvParser(connection.inputStream());
                 final List<String> header = parser.parseLine();
 

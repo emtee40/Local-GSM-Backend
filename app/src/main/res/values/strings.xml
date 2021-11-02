@@ -20,6 +20,10 @@
     <string name="mozilla_url_label">Mozilla Custom URL</string>
     <string name="mozilla_url_description">URL format https://foo.bar/MLS-full-cell-export-%sT000000.csv.gz</string>
 
+    <string name="lacells_config">lacells Configuration</string>
+    <string name="lacells_url_label">lacells Custom URL</string>
+    <string name="lacells_url_description">URL format https://foo.bar/lacells-countries.csv</string>
+
     <string name="filter_title">Filtering</string>
     <string name="mcc_filter_label">MCC Filter</string>
     <string name="mcc_default" translatable="false"></string>
