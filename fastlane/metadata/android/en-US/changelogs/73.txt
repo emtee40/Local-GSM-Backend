@@ -1,0 +1,2 @@
+- Add ability to customize lacells URL (thanks to Micha LaQua)
+- Request legacy external storage as a workaround for setting optional database path

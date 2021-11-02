@@ -15,6 +15,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Not applicable
 
+## [1.5.3] 2021-11-02
+### Added
+- Add ability to customize lacells URL (thanks to Micha LaQua)
+
+### Changed
+- Request legacy external storage as a workaround for setting optional database path
+
 ## [1.5.2] 2021-02-22
 ### Changed
 - Updated Polish translations
