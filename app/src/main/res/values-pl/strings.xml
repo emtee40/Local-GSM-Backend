@@ -19,6 +19,10 @@
     <string name="mozilla_url_label">Niestandardowy URL Mozilla</string>
     <string name="mozilla_url_description">Format URL https://foo.bar/MLS-full-cell-export-%sT000000.csv.gz</string>
 
+    <string name="lacells_config">Konfiguracja lacells</string>
+    <string name="lacells_url_label">Niestandardowy URL lacells</string>
+    <string name="lacells_url_description">Format URL https://foo.bar/lacells-countries.csv</string>
+    
     <string name="filter_title">Filtrowanie</string>
     <string name="mcc_filter_label">Filtr MCC</string>
     <string name="mcc_filter_description">Kody MCC oddzielone przecinkami: https://pl.wikipedia.org/wiki/Mobile_Country_Code</string>
