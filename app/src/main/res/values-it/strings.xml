@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    tools:ignore="MissingTranslation">
+    <string name="app_name">GSM Location Service</string>
+    <string name="summary">Posizione tramite database sul dispositivo.</string>
+
+    <!-- Strings for settings -->
+    <string name="use_oci" translatable="false">OpenCellID</string>
+    <string name="use_mls">Mozilla Location Services</string>
+
+    <string name="oci_config">Configurazione OpenCellID</string>
+    <string name="oci_api_label">OpenCellID Token Accesso</string>
+    <string name="oci_api_description">Ottieni il token su http://opencellid.org/#register</string>
+    <string name="oci_url_label">OpenCellID URL Custom</string>
+    <string name="oci_url_description">Formato URL https://foo.bar/downloads?token=%s&amp;file=cell_towers.csv.gz</string>
+
+    <string name="mozilla_config">Configurazione Mozilla</string>
+    <string name="mozilla_url_label">Mozilla URL Custom</string>
+    <string name="mozilla_url_description">Formato URL https://foo.bar/MLS-full-cell-export-%sT000000.csv.gz</string>
+
+    <string name="lacells_config">Configurazione lacells</string>
+    <string name="lacells_url_label">lacells URL Custom</string>
+    <string name="lacells_url_description">Formato URL https://foo.bar/lacells-countries.csv</string>
+
+    <string name="filter_title">Filtri</string>
+    <string name="mcc_filter_label">Filtro MCC</string>
+    <string name="mcc_default" translatable="false"></string>
+    <string name="mcc_filter_description">Lista separata da virgole di Mobile Country Code (MCC)
+        da utilizzare. Vedi http://en.wikipedia.org/wiki/Mobile_country_code
+    </string>
+
+    <string name="mnc_filter_label">Filtro MNC</string>
+    <string name="mnc_default" translatable="false"></string>
+    <string name="mnc_filter_description">Lista separata da virgole di Mobile Network Code (MNC)
+        da utilizzare. Vedi http://en.wikipedia.org/wiki/Mobile_country_code
+    </string>
+
+    <string name="ext_db_location">Posizione database esterna</string>
+    <string name="ext_db_label">Percorso facoltativo per la cartella del database</string>
+    <string name="ext_db_description">Cartella da usare per il database.</string>
+
+    <string name="invalid_oci_api_key">La chiave API non è corretta. Inserisci una chiave valida (o disattiva
+        la sorgente dati OpenCellID).
+    </string>
+    <string name="unrecognized_oci_api_key">Chiave API indicata non riconosciuta. Assicurati che sia corretta.
+    </string>
+
+    <string name="log_MCC_FILTER">Filtro MCC:
+        <xliff:g example="42,48" id="MCC filter">%1$s</xliff:g>
+    </string>
+    <string name="log_MCC_WORLD">Nessun filtro MCC, usa tutti i paesi</string>
+    <string name="log_MNC_FILTER">Filtro MNC:
+        <xliff:g example="1,2,3,4" id="MNC filter">%1$s</xliff:g>
+    </string>
+
+    <string name="log_MNC_WORLD">Nessun filtro MNC, usa tutte le reti</string>
+    <string name="log_GETTING_OCID">Recupero Dati Celle Da OpenCellID. . .</string>
+    <string name="log_GETTING_MOZ">Recupero Dati Celle Da Mozilla Location Services. . .</string>
+    <string name="log_URL">L\'URL è
+        <xliff:g example="http://opencellid.org/downloads/" id="url">%1$s</xliff:g>
+    </string>
+    <string name="log_CONT_LENGTH">Lunghezza contenuto =
+        <xliff:g example="5535" id="content length">%1$s</xliff:g>
+    </string>
+    <string name="log_REC_STATS">
+        Record Letti:<xliff:g example="1000" id="records read">%1$d</xliff:g>,
+        Inseriti:
+        <xliff:g id="records inserted">%2$d</xliff:g>
+    </string>
+    <string name="log_INDICIES">Creazione indici per accesso più rapido.</string>
+    <string name="log_TOT_TIME">Tempo Totale:
+        <xliff:g example="29530" id="time in milliseconds">%1$d</xliff:g>
+        ms
+    </string>
+    <string name="log_FINISHED">Finito.</string>
+    <string name="log_END_STATS">Tempo Totale:
+        <xliff:g id="time in milliseconds">%1$s</xliff:g>
+        ms
+        (
+        <xliff:g id="milliseconds per record">%2$s</xliff:g>
+        ms/record)
+    </string>
+
+    <string name="st_CANCELED">ANNULLATO</string>
+
+    <!-- Strings related to requesting/granting permissions -->
+    <string name="notification_location_permission">Tocca per concedere l\'autorizzazione necessaria alla posizione.
+    </string>
+    <string name="dialog_location_perm_granted">Ora disattiva e riattiva il servizio di localizzazione GSM nelle impostazioni di UnifiedNlp.
+    In alternativa, disattiva e riattiva la posizione nel menu delle impostazioni rapide.
+    </string>
+    <string name="dialog_location_perm_denied">Il servizio non sarà in grado di raccogliere informazioni
+        sulle celle della rete mobile e sarà inutile finché non si concederà l\'autorizzazione alla posizione.
+    </string>
+    <string name="preference_grant_permission">Tocca per concedere l\'autorizzazione necessaria</string>
+
+    <!-- string for the new UI -->
+    <string name="fragment_settings_title">Impostazioni</string>
+
+    <string name="fragment_update_database_title">Database</string>
+
+    <string name="fragment_update_database_last_update">Ultimo aggiornamento database:
+        <xliff:g example="3 minutes ago" id="time">%1$s</xliff:g>
+    </string>
+    <string name="fragment_update_database_no_database_found">Nessun database trovato</string>
+    <string name="fragment_update_database_no_permission">Il database esiste ma non si può leggere.
+        Cambia i permessi su
+        <xliff:g id="file">%s</xliff:g>
+    </string>
+    <string name="fragment_update_database_start_update">Aggiorna database</string>
+    <string name="fragment_update_database_create_database">Crea database</string>
+    <string name="fragment_update_database_show_details">Mostra dettagli</string>
+    <string name="fragment_size_database">
+        <xliff:g id="size">%1$d</xliff:g> Celle Radio
+    </string>
+
+    <string name="fragment_update_database_exception_title">Errore durante l\'aggiornamento del database</string>
+
+    <string name="fragment_settings_card_sources_title">Sorgenti</string>
+
+    <string name="fragment_settings_card_sources_filter_on_phone">Scarica tutte le aree e salva solo quelle selezionate</string>
+    <string name="fragment_settings_card_sources_filter_remote">Scarica le aree selezionate da lacells</string>
+
+    <string name="fragment_settings_opencellid_error_title">Impossibile abilitare OpenCellID</string>
+    <string name="fragment_settings_opencellid_error_connection">Connessione non riuscita</string>
+    <string name="fragment_settings_opencellid_error_day_limit">Riprova domani</string>
+    <string name="fragment_settings_opencellid_error_no_token">Token OpenCellID vuoto</string>
+
+    <string name="activity_main_libraries">Librerie esterne</string>
+
+    <string name="fragment_settings_card_areas_title">Aree</string>
+
+    <string name="fragment_settings_card_areas_nothing_chosen">Nessuno sezionato (usa tutti)
+    </string>
+    <string name="fragment_settings_card_areas_other">Altri</string>
+
+    <string name="fragment_settings_blocked_database_update">Non puoi modificare le impostazioni durante l\'aggiornamento del database.
+    </string>
+
+    <string name="activity_area_list_title">Seleziona aree</string>
+
+    <string name="fragment_area_list_unknown">Area Sconosciuta (MCC:<xliff:g example="42" id="mcc">
+        %1$s</xliff:g>)
+    </string>
+
+    <string name="fragment_database_update_error_no_sources">Devi prima selezionare le sorgenti nelle impostazioni
+    </string>
+    <string name="fragment_database_update_button_settings">Apri Impostazioni</string>
+
+    <string name="fragment_database_update_error_no_permission">Permesso di archiviazione file richiesto
+    </string>
+    <string name="fragment_database_update_button_permission_allow">Consenti</string>
+
+    <string name="fragment_settings_advanced_title">Impostazioni Avanzate</string>
+
+    <string name="activity_area_list_search_hint">Ricerca</string>
+    
+    <string name="other_settings_title">Altre Impostazioni</string>
+    
+    <string name="other_settings_calculate_area_range">Portata dell\'area in base alla potenza del segnale</string>
+
+    <string name="activity_main_about">Informazioni</string>
+</resources>
+
