@@ -66,6 +66,9 @@ public class SettingsFragment extends BaseFragment {
     protected CheckBox calculateAreaRange;
 
     @ViewById
+    protected CheckBox rememberLastKnownLocation;
+
+    @ViewById
     protected RadioButton filterOnPhone;
 
     @ViewById
@@ -86,6 +89,7 @@ public class SettingsFragment extends BaseFragment {
         openCellId.setChecked(Settings.with(this).useOpenCellId());
         mozillaLocationServices.setChecked(Settings.with(this).useMozillaLocationService());
         calculateAreaRange.setChecked(Settings.with(this).calculateAreaRange());
+        rememberLastKnownLocation.setChecked(Settings.with(this).rememberLastKnownLocation());
 
         if(Settings.with(this).useLacells()) {
             filterRemote.setChecked(true);
@@ -123,6 +127,11 @@ public class SettingsFragment extends BaseFragment {
     @CheckedChange
     protected void calculateAreaRange(boolean checked) {
         Settings.with(this).calculateAreaRange(checked);
+    }
+
+    @CheckedChange
+    protected void rememberLastKnownLocation(boolean checked) {
+        Settings.with(this).rememberLastKnownLocation(checked);
     }
 
     @CheckedChange

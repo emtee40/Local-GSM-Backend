@@ -24,6 +24,12 @@
             android:layout_height="wrap_content"
             android:text="@string/other_settings_calculate_area_range"/>
         
+        <CheckBox
+            android:id="@+id/remember_last_known_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/other_settings_remember_last_known_location"/>
+        
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

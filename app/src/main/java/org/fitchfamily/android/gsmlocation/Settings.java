@@ -55,6 +55,8 @@ public class Settings {
 
     private static final String CALCULATE_AREA_RANGE = "calculate_area_range";
 
+    private static final String REMEMBER_LAST_KNOWN_LOCATION = "remember_last_known_location";
+
     private static final Object lock = new Object();
     private static Settings instance;
 
@@ -167,6 +169,11 @@ public class Settings {
     public boolean calculateAreaRange() {
         return preferences.getBoolean(CALCULATE_AREA_RANGE, false);
     }
+    
+    public boolean rememberLastKnownLocation() {
+        return preferences.getBoolean(REMEMBER_LAST_KNOWN_LOCATION, true);
+    }
+
 
     public File databaseDirectory() {
         File extDir = new File(preferences.getString(EXTERNAL_DATABASE_LOCATION, ""));
@@ -282,6 +289,16 @@ public class Settings {
         if (enable != calculateAreaRange()) {
             preferences.edit()
                     .putBoolean(CALCULATE_AREA_RANGE, enable)
+                    .commit();
+        }
+
+        return this;
+    }
+    
+    public Settings rememberLastKnownLocation(boolean enable) {
+        if (enable != rememberLastKnownLocation()) {
+            preferences.edit()
+                    .putBoolean(REMEMBER_LAST_KNOWN_LOCATION, enable)
                     .commit();
         }
 

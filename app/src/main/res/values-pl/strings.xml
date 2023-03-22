@@ -141,6 +141,8 @@
     
     <string name="other_settings_calculate_area_range">Zakres obszaru zależy od siły sygnału</string>
 
+    <string name="other_settings_remember_last_known_location">Zapamiętaj ostatnie położenie</string>
+
     <string name="activity_main_about">O programie</string>
 </resources>
 

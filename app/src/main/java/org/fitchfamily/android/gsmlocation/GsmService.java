@@ -14,6 +14,7 @@ import org.microg.nlp.api.LocationBackendService;
 import java.util.List;
 
 import static org.fitchfamily.android.gsmlocation.LogUtils.makeLogTag;
+import org.fitchfamily.android.gsmlocation.Settings;
 
 public class GsmService extends LocationBackendService {
     private static final String TAG = makeLogTag("service");
@@ -23,13 +24,16 @@ public class GsmService extends LocationBackendService {
     private TelephonyManager tm = null;
     private Location lastKnownLocation = null;
     private Boolean seenCellInfoChanged = false;
+    private Context context = null;
 
     final PhoneStateListener listener = new PhoneStateListener() {
         @Override
         public void onCellInfoChanged(List<android.telephony.CellInfo> cellInfo) {
             if (DEBUG) Log.d(TAG, "onCellInfoChanged(): " + cellInfo.toString());
             Location location = th.getLocationEstimate(cellInfo);
-            if (location != null) lastKnownLocation = location;
+            Boolean rememberLastKnownLocation = Settings.with(context).rememberLastKnownLocation();
+            if (location != null || !rememberLastKnownLocation) 
+                lastKnownLocation = location;
             seenCellInfoChanged = true;
         }
     };
@@ -56,17 +60,20 @@ public class GsmService extends LocationBackendService {
 
         if (!seenCellInfoChanged) {
             Location location = th.getLocationEstimate(null);
-            if (location != null) lastKnownLocation = location;
-        }
+            Boolean rememberLastKnownLocation = Settings.with(context).rememberLastKnownLocation();
+            if (location != null || !rememberLastKnownLocation) 
+                lastKnownLocation = location;
+         }
 
-        if (lastKnownLocation != null) lastKnownLocation.setTime(System.currentTimeMillis());
+        if (lastKnownLocation != null) 
+            lastKnownLocation.setTime(System.currentTimeMillis());
         return (lastKnownLocation);
     }
 
     @Override
     protected synchronized void onOpen() {
         if (DEBUG) Log.d(TAG, "onOpen()");
-        Context context = getApplicationContext();
+        context = getApplicationContext();
         th = new TelephonyHelper(context);
         tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (tm != null && Build.VERSION.SDK_INT >= 29)

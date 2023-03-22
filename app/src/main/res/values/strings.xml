@@ -165,6 +165,8 @@
     
     <string name="other_settings_calculate_area_range">Area range based on signal strength</string>
 
+    <string name="other_settings_remember_last_known_location">Remember last known location</string>
+
     <string name="activity_main_about">About</string>
 </resources>
 
