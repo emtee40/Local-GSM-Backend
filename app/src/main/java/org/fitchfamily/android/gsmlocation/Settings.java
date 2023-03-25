@@ -56,13 +56,15 @@ public class Settings {
     private static final String CALCULATE_AREA_RANGE = "calculate_area_range";
 
     private static final String REMEMBER_LAST_KNOWN_LOCATION = "remember_last_known_location";
+    
+    private static final String FIXED_ACCURACY = "fixed_accuracy_preference";
 
     private static final Object lock = new Object();
     private static Settings instance;
 
     private final SharedPreferences preferences;
     private final Context context;
-
+    
     private Settings(Context context) {
         this.context = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
@@ -136,6 +138,10 @@ public class Settings {
 
     public String mncFilters() {
         return preferences.getString(MNC_FILTER, "");
+    }
+
+    public String fixedAccuracy() {
+        return preferences.getString(FIXED_ACCURACY, "");
     }
 
     public String openCellIdApiKey() {
@@ -299,6 +305,16 @@ public class Settings {
         if (enable != rememberLastKnownLocation()) {
             preferences.edit()
                     .putBoolean(REMEMBER_LAST_KNOWN_LOCATION, enable)
+                    .commit();
+        }
+
+        return this;
+    }
+
+    public Settings fixedAccuracy(String key) {
+        if (!TextUtils.equals(key, fixedAccuracy())) {
+            preferences.edit()
+                    .putString(FIXED_ACCURACY, key)
                     .commit();
         }
 

@@ -45,6 +45,15 @@
             android:title="@string/mnc_filter_label" />
     </PreferenceCategory>
     
+    <PreferenceCategory android:title="@string/other_settings_title">
+        <EditTextPreference
+            android:dialogTitle="@string/fixed_accuracy_description"
+            android:digits="0123456789"
+            android:inputType="numberDecimal"
+            android:key="fixed_accuracy_preference"
+            android:title="@string/fixed_accuracy_label" />
+    </PreferenceCategory>
+    
     <PreferenceCategory android:title="@string/ext_db_location">
         <EditTextPreference
             android:dialogTitle="@string/ext_db_description"

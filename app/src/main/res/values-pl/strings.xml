@@ -29,6 +29,9 @@
 
     <string name="mnc_filter_label">Filtr MNC</string>
     <string name="mnc_filter_description">Kody MNC oddzielone przecinkamim: https://pl.wikipedia.org/wiki/Mobile_Network_Code</string>
+    
+    <string name="fixed_accuracy_label">Stała dokładność</string>
+    <string name="fixed_accuracy_description">Nadpisz dokładność z bazy danych stałą wartością.</string>
 
     <string name="ext_db_location">Miejsce zewnętrznej bazy danych</string>
     <string name="ext_db_label">Ścieżka do katalogu bazy danych (opcjonalne)</string>

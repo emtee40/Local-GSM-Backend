@@ -58,6 +58,7 @@ public class AdvancedSettingsFragment extends PreferenceFragment implements Pref
         bindPreferenceSummaryToValue(findPreference("lacells_url_preference"));
         bindPreferenceSummaryToValue(findPreference("mcc_filter_preference"));
         bindPreferenceSummaryToValue(findPreference("mnc_filter_preference"));
+        bindPreferenceSummaryToValue(findPreference("fixed_accuracy_preference"));
         bindPreferenceSummaryToValue(prefDbPath);
 
         // only enable settings when the database download is not running

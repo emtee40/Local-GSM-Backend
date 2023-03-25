@@ -37,6 +37,9 @@
         to be used. See http://en.wikipedia.org/wiki/Mobile_country_code
     </string>
 
+    <string name="fixed_accuracy_label">Fixed Accuracy</string>
+    <string name="fixed_accuracy_description">Override accuracy from database by fixed value.</string>
+
     <string name="ext_db_location">External database location</string>
     <string name="ext_db_label">Optional Path To Database Directory</string>
     <string name="ext_db_description">Directory to use for database.</string>

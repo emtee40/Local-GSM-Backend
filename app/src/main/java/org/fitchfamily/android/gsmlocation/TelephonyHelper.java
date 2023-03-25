@@ -22,6 +22,7 @@ import android.telephony.NeighboringCellInfo;
 import android.telephony.ServiceState;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -234,10 +235,17 @@ class TelephonyHelper {
             cellLocation = db.query(mcc, mnc, cid, lac);
 
             if ((cellLocation != null)) {
-                if (Settings.with(context).calculateAreaRange() && 
+                String fixedAccuracyValue = Settings.with(context).fixedAccuracy();
+                
+                if (!TextUtils.isEmpty(fixedAccuracyValue)) {
+                    range = Integer.parseInt(fixedAccuracyValue);
+                    cellLocation.setAccuracy((float) range);
+                }
+                else if (Settings.with(context).calculateAreaRange() && 
                     cellLocation.getAccuracy() > range) {
                     cellLocation.setAccuracy((float) range);
                 }
+
                 rslt.add(cellLocation);
             }
 
