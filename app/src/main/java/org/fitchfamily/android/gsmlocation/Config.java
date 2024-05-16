@@ -18,8 +18,7 @@ public class Config {
     public static final String LACELLS_MCC_URL = "https://wvengen.github.io/lacells/lacells-countries.csv";
 
     // Mozilla Location Services uses:
-    // "https://d2koia3g127518.cloudfront.net/export/MLS-full-cell-export-${NOW}T000000.csv.gz"
-    public static final String MLS_URL_FMT = "https://d2koia3g127518.cloudfront.net/export/MLS-full-cell-export-%sT000000.csv.gz";
+    public static final String MLS_URL_FMT = "https://d2koia3g127518.cloudfront.net/final_export/MLS-full-cell-export-final.csv.gz";
 
     public static final int MIN_RANGE = 500;
     public static final int MAX_RANGE = 100000;
