@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - Not applicable
 
+## [1.5.4] 2024-05-16
+### Added
+- Added Italian translation (thanks to Gabriele Monaco)
+- Add a possibility to disable last known location
+- Add a possibility to override accuracy from database
+
+### Changed
+- Mozilla location service will be shutdown. Use final export for now.
+
+### Removed
+- Removed apparently non-existent Vatican City MCC (thanks to Gabriele Monaco)
+
 ## [1.5.3] 2021-11-02
 ### Added
 - Add ability to customize lacells URL (thanks to Micha LaQua)

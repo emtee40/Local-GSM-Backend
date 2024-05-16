@@ -1,0 +1,5 @@
+- Added Italian translation (thanks to Gabriele Monaco)
+- Add a possibility to disable last known location
+- Add a possibility to override accuracy from database
+- Mozilla location service will be shutdown. Use final export for now.
+- Removed apparently non-existent Vatican City MCC (thanks to Gabriele Monaco)
